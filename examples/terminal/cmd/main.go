@@ -28,6 +28,7 @@ func main() {
 	)
 
 	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
+		WithKind("user").
 		WithSource("keycloack").
 		WithProperty("isSuperUser", true).
 		Build()
@@ -41,8 +42,14 @@ func main() {
 		WithProperty("isEnabled", true).
 		Build()
 
-	req := permguard.NewAZRequestBuilder(subject, resource, action).Build()
-	decsion := azClient.Check(req)
+	req := permguard.NewAZRequestBuilder(subject, resource, action).
+		WithRequestID("1234").
+		Build()
 
-	fmt.Println(decsion)
+	decsion := azClient.Check(req)
+	if decsion {
+		fmt.Println("✅ Request Permitted")
+	} else {
+		fmt.Println("❌ Request Denied")
+	}
 }

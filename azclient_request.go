@@ -18,9 +18,15 @@ package permguard
 
 // AZRequest is the AZRequest object.
 type AZRequest struct {
-	subject  *Subject
-	resource *Resource
-	action   *Action
+	requestID string
+	subject   *Subject
+	resource  *Resource
+	action    *Action
+}
+
+// GetRequestID returns the request ID of the AZRequest.
+func (u *AZRequest) GetRequestID() string {
+	return u.requestID
 }
 
 // GetSubject returns the subject of the AZRequest.
@@ -52,6 +58,12 @@ func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action) *
 			action:   action,
 		},
 	}
+}
+
+// WithRequestID sets the request ID of the AZRequest.
+func (b *AZRequestBuilder) WithRequestID(requestID string) *AZRequestBuilder {
+	b.AZRequest.requestID = requestID
+	return b
 }
 
 // Build builds the AZRequest object.
