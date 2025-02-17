@@ -14,5 +14,5 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package permguard implements the permguard client.
+// Package permguard implements the permguard go sdk.
 package permguard

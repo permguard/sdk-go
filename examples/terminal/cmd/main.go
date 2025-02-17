@@ -18,8 +18,12 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/permguard/permguard-go"
 )
 
 func main() {
 	fmt.Println("Hello, World!")
+	azClinet := &permguard.AZClient{}
+	fmt.Println(azClinet)
 }
