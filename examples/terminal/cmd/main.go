@@ -23,7 +23,26 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, World!")
-	azClinet := &permguard.AZClient{}
-	fmt.Println(azClinet)
+	azClient := permguard.NewAZClient(
+		permguard.WithPDPEndpoint("localhost", 9094),
+	)
+
+	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
+		WithSource("keycloack").
+		WithProperty("isEnabled", true).
+		Build()
+
+	resource := permguard.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
+		WithID("e3a786fd07e24bfa95ba4341d3695ae8").
+		WithProperty("isEnabled", true).
+		Build()
+
+	action := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::view").
+		WithProperty("isEnabled", true).
+		Build()
+
+	req := permguard.NewAZRequestBuilder(subject, resource, action).Build()
+	decsion := azClient.Check(req)
+
+	fmt.Println(decsion)
 }

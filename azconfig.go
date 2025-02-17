@@ -16,27 +16,26 @@
 
 package permguard
 
-// AZClient is the client to interact with the authorization server.
-type AZClient struct {
-	azConfig *AZConfig
+// azEndpoint is the endpoint for the authorization server.
+type azEndpoint struct {
+	endpoint string
+	port     int
 }
 
-// NewAZClient creates a new authorization client.
-func NewAZClient(opts ...AZOption) *AZClient {
-	c := &AZClient{}
-	c.azConfig = &AZConfig{
-		pdpEndpoint: &azEndpoint{
-			endpoint: "localhost",
-			port:     9094,
-		},
-	}
-	for _, opt := range opts {
-		opt(c.azConfig)
-	}
-	return c
+// AZOption is the option for the authorization client configuration.
+type AZOption func(*AZConfig)
+
+// AZConfig is the configuration for the authorization client.
+type AZConfig struct {
+	pdpEndpoint *azEndpoint
 }
 
-// Check checks the input authorization request with the authorization server.
-func (c *AZClient) Check(req *AZRequest) bool {
-	return false
+// WithPDPEndpoint sets the endpoint for the authorization server.
+func WithPDPEndpoint(endpoint string, port int) AZOption {
+	return func(c *AZConfig) {
+		c.pdpEndpoint = &azEndpoint{
+			endpoint: endpoint,
+			port:     port,
+		}
+	}
 }
