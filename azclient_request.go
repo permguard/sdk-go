@@ -18,9 +18,9 @@ package permguard
 
 // AZRequest is the AZRequest object.
 type AZRequest struct {
-	subject *Subject
+	subject  *Subject
 	resource *Resource
-	action *Action
+	action   *Action
 }
 
 // GetSubject returns the subject of the AZRequest.
@@ -47,9 +47,9 @@ type AZRequestBuilder struct {
 func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action) *AZRequestBuilder {
 	return &AZRequestBuilder{
 		AZRequest: &AZRequest{
-			subject: subject,
+			subject:  subject,
 			resource: resource,
-			action: action,
+			action:   action,
 		},
 	}
 }

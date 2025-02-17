@@ -29,7 +29,7 @@ func main() {
 
 	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
 		WithSource("keycloack").
-		WithProperty("isEnabled", true).
+		WithProperty("isSuperUser", true).
 		Build()
 
 	resource := permguard.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
