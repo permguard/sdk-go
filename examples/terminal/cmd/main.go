@@ -52,11 +52,15 @@ func main() {
 		WithProperty("isSubscriptionActive", true).
 		Build()
 
-	// Create a new request
-	req := permguard.NewAZRequestBuilder(subject, resource, action).
-		WithPolicyLedger(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+	// Create a new evaluation
+	evaluation := permguard.NewAZEvaluationBuilder(subject, resource, action).
 		WithRequestID("1234").
 		WithContext(context).
+		Build()
+
+	// Create a new request
+	req := permguard.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+		WithEvaluation(evaluation).
 		Build()
 
 	// Check the authorization

@@ -21,31 +21,27 @@ type AZRequest struct {
 	zoneID          uint64
 	policyStoreType string
 	policyStoreID   string
-	requestID       string
-	subject         *Subject
-	resource        *Resource
-	action          *Action
-	context         *Context
+	evaluations     []AZEvaluation
 }
 
-// GetRequestID returns the request ID of the AZRequest.
-func (u *AZRequest) GetRequestID() string {
-	return u.requestID
+// GetZoneID returns the Zone ID of the AZRequest.
+func (u *AZRequest) GetZoneID() uint64 {
+	return u.zoneID
 }
 
-// GetSubject returns the subject of the AZRequest.
-func (u *AZRequest) GetSubject() *Subject {
-	return u.subject
+// GetPolicyStoreType returns the policy store type of the AZRequest.
+func (u *AZRequest) GetPolicyStoreType() string {
+	return u.policyStoreType
 }
 
-// GetResource returns the resource of the AZRequest.
-func (u *AZRequest) GetResource() *Resource {
-	return u.resource
+// GetPolicyStoreID returns the policy store ID of the AZRequest.
+func (u *AZRequest) GetPolicyStoreID() string {
+	return u.policyStoreID
 }
 
-// GetAction returns the action of the AZRequest.
-func (u *AZRequest) GetAction() *Action {
-	return u.action
+// GetEvaluations returns the evaluations of the AZRequest.
+func (u *AZRequest) GetEvaluations() []AZEvaluation {
+	return u.evaluations
 }
 
 // AZRequestBuilder is the builder for the AZRequest object.
@@ -54,33 +50,20 @@ type AZRequestBuilder struct {
 }
 
 // NewAZRequestBuilder creates a new AZRequest builder.
-func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action) *AZRequestBuilder {
+func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 	return &AZRequestBuilder{
 		AZRequest: &AZRequest{
-			subject:  subject,
-			resource: resource,
-			action:   action,
+			zoneID:          zoneID,
+			policyStoreType: "ledger",
+			policyStoreID:   ledgerID,
+			evaluations:     []AZEvaluation{},
 		},
 	}
 }
 
-// WithContext sets the context of the AZRequest.
-func (b *AZRequestBuilder) WithContext(context *Context) *AZRequestBuilder {
-	b.AZRequest.context = context
-	return b
-}
-
-// WithRequestID sets the request ID of the AZRequest.
-func (b *AZRequestBuilder) WithRequestID(requestID string) *AZRequestBuilder {
-	b.AZRequest.requestID = requestID
-	return b
-}
-
-// WithPolicyLedger sets the Zone ID and the policy store for the AZRequest.
-func (b *AZRequestBuilder) WithPolicyLedger(zoneID uint64, ledgerID string) *AZRequestBuilder {
-	b.AZRequest.zoneID = zoneID
-	b.AZRequest.policyStoreType = "ledger"
-	b.AZRequest.policyStoreID = ledgerID
+// WithEvaluation adds an evaluation to the AZRequest.
+func (b *AZRequestBuilder) WithEvaluation(evaluation *AZEvaluation) *AZRequestBuilder {
+	b.AZRequest.evaluations = append(b.AZRequest.evaluations, *evaluation)
 	return b
 }
 
