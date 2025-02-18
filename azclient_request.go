@@ -18,10 +18,14 @@ package permguard
 
 // AZRequest is the AZRequest object.
 type AZRequest struct {
-	requestID string
-	subject   *Subject
-	resource  *Resource
-	action    *Action
+	zoneID          uint64
+	policyStoreType string
+	policyStoreID   string
+	requestID       string
+	subject         *Subject
+	resource        *Resource
+	action          *Action
+	context         *Context
 }
 
 // GetRequestID returns the request ID of the AZRequest.
@@ -60,9 +64,23 @@ func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action) *
 	}
 }
 
+// WithContext sets the context of the AZRequest.
+func (b *AZRequestBuilder) WithContext(context *Context) *AZRequestBuilder {
+	b.AZRequest.context = context
+	return b
+}
+
 // WithRequestID sets the request ID of the AZRequest.
 func (b *AZRequestBuilder) WithRequestID(requestID string) *AZRequestBuilder {
 	b.AZRequest.requestID = requestID
+	return b
+}
+
+// WithPolicyLedger sets the Zone ID and the policy store for the AZRequest.
+func (b *AZRequestBuilder) WithPolicyLedger(zoneID uint64, ledgerID string) *AZRequestBuilder {
+	b.AZRequest.zoneID = zoneID
+	b.AZRequest.policyStoreType = "ledger"
+	b.AZRequest.policyStoreID = ledgerID
 	return b
 }
 
