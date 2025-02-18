@@ -23,29 +23,35 @@ import (
 )
 
 func main() {
+	// Create a new PermGuard client
 	azClient := permguard.NewAZClient(
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
 
+	// Create a new subject
 	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
 		WithKind("user").
 		WithSource("keycloack").
 		WithProperty("isSuperUser", true).
 		Build()
 
+	// Create a new resource
 	resource := permguard.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
 		WithID("e3a786fd07e24bfa95ba4341d3695ae8").
 		WithProperty("isEnabled", true).
 		Build()
 
+	// Create a new action
 	action := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::view").
 		WithProperty("isEnabled", true).
 		Build()
 
+	// Create a new request
 	req := permguard.NewAZRequestBuilder(subject, resource, action).
 		WithRequestID("1234").
 		Build()
 
+	// Check the authorization
 	decsion := azClient.Check(req)
 	if decsion {
 		fmt.Println("✅ Authorization Permitted")
