@@ -1,4 +1,4 @@
-// Copyright 2024 Nitro Agility S.r.l.
+// Copyright 2025 Nitro Agility S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,5 +14,29 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package permguard implements the permguard client.
 package permguard
+
+// AZClient is the client to interact with the authorization server.
+type AZClient struct {
+	azConfig *AZConfig
+}
+
+// NewAZClient creates a new authorization client.
+func NewAZClient(opts ...AZOption) *AZClient {
+	c := &AZClient{}
+	c.azConfig = &AZConfig{
+		pdpEndpoint: &azEndpoint{
+			endpoint: "localhost",
+			port:     9094,
+		},
+	}
+	for _, opt := range opts {
+		opt(c.azConfig)
+	}
+	return c
+}
+
+// Check checks the input authorization request with the authorization server.
+func (c *AZClient) Check(req *AZRequest) bool {
+	return false
+}

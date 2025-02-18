@@ -1,2 +1,4 @@
 github.com/permguard/permguard-go v0.0.0-20250216225920-e51db9786070 h1:9u5rFQJa3d8EzUWngvF3uwgVqhpSmx4Yl2FER111yVw=
 github.com/permguard/permguard-go v0.0.0-20250216225920-e51db9786070/go.mod h1:xRSTQ1Z31Vt03jxn28S9MOhd0zKYVm/u8nl6n6Ds7Fo=
+github.com/permguard/permguard-go v0.0.0-20250217223217-778d1065bcaf h1:QRGqcHV0H+Rj/S+gPwxh/yNIIC1GSFG1K2wG1fajJss=
+github.com/permguard/permguard-go v0.0.0-20250217223217-778d1065bcaf/go.mod h1:xRSTQ1Z31Vt03jxn28S9MOhd0zKYVm/u8nl6n6Ds7Fo=
