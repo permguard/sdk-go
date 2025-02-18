@@ -48,8 +48,8 @@ func main() {
 
 	decsion := azClient.Check(req)
 	if decsion {
-		fmt.Println("✅ Request Permitted")
+		fmt.Println("✅ Authorization Permitted")
 	} else {
-		fmt.Println("❌ Request Denied")
+		fmt.Println("❌ Authorization Denied")
 	}
 }
