@@ -46,8 +46,15 @@ func main() {
 		WithProperty("isEnabled", true).
 		Build()
 
+	// Create a new Context
+	context := permguard.NewContextBuilder().
+		WithProperty("time", "2025-01-23T16:17:46+00:00").
+		WithProperty("isSubscriptionActive", true).
+		Build()
+
 	// Create a new request
-	req := permguard.NewAZRequestBuilder(subject, resource, action).
+	req := permguard.NewAZRequestBuilder(subject, resource, action, context).
+		WithPolicyLedger(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
 		WithRequestID("1234").
 		Build()
 
