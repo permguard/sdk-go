@@ -22,7 +22,8 @@ import (
 	"github.com/permguard/permguard-go"
 )
 
-func main() {
+// checkMultipleEvaluations checks multiple evaluations
+func checkMultipleEvaluations(){
 	// Create a new PermGuard client
 	azClient := permguard.NewAZClient(
 		permguard.WithPDPEndpoint("localhost", 9094),
@@ -70,4 +71,8 @@ func main() {
 	} else {
 		fmt.Println("❌ Authorization Denied")
 	}
+}
+
+func main() {
+	checkMultipleEvaluations()
 }
