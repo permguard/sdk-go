@@ -25,6 +25,7 @@ type AZRequest struct {
 	subject         *Subject
 	resource        *Resource
 	action          *Action
+	context         *Context
 }
 
 // GetRequestID returns the request ID of the AZRequest.
@@ -53,7 +54,7 @@ type AZRequestBuilder struct {
 }
 
 // NewAZRequestBuilder creates a new AZRequest builder.
-func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action, context *Context) *AZRequestBuilder {
+func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action) *AZRequestBuilder {
 	return &AZRequestBuilder{
 		AZRequest: &AZRequest{
 			subject:  subject,
@@ -61,6 +62,12 @@ func NewAZRequestBuilder(subject *Subject, resource *Resource, action *Action, c
 			action:   action,
 		},
 	}
+}
+
+// WithContext sets the context of the AZRequest.
+func (b *AZRequestBuilder) WithContext(context *Context) *AZRequestBuilder {
+	b.AZRequest.context = context
+	return b
 }
 
 // WithRequestID sets the request ID of the AZRequest.

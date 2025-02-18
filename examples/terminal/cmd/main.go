@@ -53,9 +53,10 @@ func main() {
 		Build()
 
 	// Create a new request
-	req := permguard.NewAZRequestBuilder(subject, resource, action, context).
+	req := permguard.NewAZRequestBuilder(subject, resource, action).
 		WithPolicyLedger(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
 		WithRequestID("1234").
+		WithContext(context).
 		Build()
 
 	// Check the authorization
