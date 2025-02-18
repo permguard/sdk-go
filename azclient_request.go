@@ -46,13 +46,13 @@ func (u *AZRequest) GetEvaluations() []AZEvaluation {
 
 // AZRequestBuilder is the builder for the AZRequest object.
 type AZRequestBuilder struct {
-	AZRequest *AZRequest
+	azRequest *AZRequest
 }
 
 // NewAZRequestBuilder creates a new AZRequest builder.
 func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 	return &AZRequestBuilder{
-		AZRequest: &AZRequest{
+		azRequest: &AZRequest{
 			zoneID:          zoneID,
 			policyStoreType: "ledger",
 			policyStoreID:   ledgerID,
@@ -63,11 +63,11 @@ func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 
 // WithEvaluation adds an evaluation to the AZRequest.
 func (b *AZRequestBuilder) WithEvaluation(evaluation *AZEvaluation) *AZRequestBuilder {
-	b.AZRequest.evaluations = append(b.AZRequest.evaluations, *evaluation)
+	b.azRequest.evaluations = append(b.azRequest.evaluations, *evaluation)
 	return b
 }
 
 // Build builds the AZRequest object.
 func (b *AZRequestBuilder) Build() *AZRequest {
-	return b.AZRequest
+	return b.azRequest
 }

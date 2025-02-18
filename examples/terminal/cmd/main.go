@@ -22,8 +22,40 @@ import (
 	"github.com/permguard/permguard-go"
 )
 
+func checkAtomicEvaluation() {
+	// Create a new PermGuard client
+	azClient := permguard.NewAZClient(
+		permguard.WithPDPEndpoint("localhost", 9094),
+	)
+
+	req := permguard.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
+		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
+		// RequestID
+		WithRequestID("1234").
+		// Subject
+		WithSubjectKind("user").
+		WithSubjectSource("keycloack").
+		WithSubjectProperty("isSuperUser", true).
+		// Resource
+		WithResourceID("e3a786fd07e24bfa95ba4341d3695ae8").
+		WithResourceProperty("isEnabled", true).
+		// Action
+		WithActionProperty("isEnabled", true).
+		WithContextProperty("time", "2025-01-23T16:17:46+00:00").
+		WithContextProperty("isSubscriptionActive", true).
+		Build()
+
+	// Check the authorization
+	decsion := azClient.Check(req)
+	if decsion {
+		fmt.Println("✅ Authorization Permitted")
+	} else {
+		fmt.Println("❌ Authorization Denied")
+	}
+}
+
 // checkMultipleEvaluations checks multiple evaluations
-func checkMultipleEvaluations(){
+func checkMultipleEvaluations() {
 	// Create a new PermGuard client
 	azClient := permguard.NewAZClient(
 		permguard.WithPDPEndpoint("localhost", 9094),

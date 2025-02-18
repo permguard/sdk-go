@@ -52,13 +52,13 @@ func (u *AZEvaluation) GetContext() *Context {
 
 // AZEvaluationBuilder is the builder for the AZEvaluation object.
 type AZEvaluationBuilder struct {
-	AZEvaluation *AZEvaluation
+	azEvaluation *AZEvaluation
 }
 
 // NewAZEvaluationBuilder creates a new AZEvaluation builder.
 func NewAZEvaluationBuilder(subject *Subject, resource *Resource, action *Action) *AZEvaluationBuilder {
 	return &AZEvaluationBuilder{
-		AZEvaluation: &AZEvaluation{
+		azEvaluation: &AZEvaluation{
 			subject:  subject,
 			resource: resource,
 			action:   action,
@@ -68,17 +68,17 @@ func NewAZEvaluationBuilder(subject *Subject, resource *Resource, action *Action
 
 // WithRequestID sets the request ID of the AZEvaluation.
 func (b *AZEvaluationBuilder) WithRequestID(requestID string) *AZEvaluationBuilder {
-	b.AZEvaluation.requestID = requestID
+	b.azEvaluation.requestID = requestID
 	return b
 }
 
 // WithContext sets the context of the AZEvaluation.
 func (b *AZEvaluationBuilder) WithContext(context *Context) *AZEvaluationBuilder {
-	b.AZEvaluation.context = context
+	b.azEvaluation.context = context
 	return b
 }
 
 // Build builds the AZEvaluation object.
 func (b *AZEvaluationBuilder) Build() *AZEvaluation {
-	return b.AZEvaluation
+	return b.azEvaluation
 }
