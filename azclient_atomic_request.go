@@ -19,6 +19,7 @@ package permguard
 // AZAtomicRequestBuilder is the builder for the AZAtomicRequest object.
 type AZAtomicRequestBuilder struct {
 	requestID         string
+	principal         *Principal
 	azSubjectBuilder  *SubjectBuilder
 	azResourceBuilder *ResourceBuilder
 	azActionBuilder   *ActionBuilder
@@ -45,6 +46,12 @@ func NewAZAtomicRequestBuilder(zoneID uint64, ledgerID, subjectID, resourceKind,
 // WithRequestID sets the ID of the request.
 func (b *AZAtomicRequestBuilder) WithRequestID(requestID string) *AZAtomicRequestBuilder {
 	b.requestID = requestID
+	return b
+}
+
+// WithPrincipal sets the principal of the request.
+func (b *AZAtomicRequestBuilder) WithPrincipal(principal *Principal) *AZAtomicRequestBuilder {
+	b.principal = principal
 	return b
 }
 

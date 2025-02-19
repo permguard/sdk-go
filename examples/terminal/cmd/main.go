@@ -28,10 +28,14 @@ func checkAtomicEvaluation() {
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
 
+	principal := permguard.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+
 	req := permguard.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
 		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
 		// RequestID
 		WithRequestID("1234").
+		// Principal
+		WithPrincipal(principal).
 		// Subject
 		WithSubjectKind("user").
 		WithSubjectSource("keycloack").
@@ -61,6 +65,8 @@ func checkMultipleEvaluations() {
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
 
+	principal := permguard.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+
 	// Create a new subject
 	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
 		WithKind("user").
@@ -88,6 +94,7 @@ func checkMultipleEvaluations() {
 	// Create a new evaluation
 	evaluation := permguard.NewAZEvaluationBuilder(subject, resource, action).
 		WithRequestID("1234").
+		WithPrincipal(principal).
 		WithContext(context).
 		Build()
 
