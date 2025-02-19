@@ -14,7 +14,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package permguard
+package azreq
 
 // Resource is the resource object.
 type Resource struct {

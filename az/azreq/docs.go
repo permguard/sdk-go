@@ -14,5 +14,5 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package clients implements the gRPC clients.
-package clients
+// Package azreq contains the types for the AZRequest.
+package azreq

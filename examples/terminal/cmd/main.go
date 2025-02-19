@@ -20,6 +20,7 @@ import (
 	"fmt"
 
 	"github.com/permguard/permguard-go"
+	"github.com/permguard/permguard-go/az/azreq"
 )
 
 func checkAtomicEvaluation() {
@@ -28,7 +29,7 @@ func checkAtomicEvaluation() {
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
 
-	principal := permguard.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
 	entities := []map[string]any{
 		{
@@ -41,9 +42,9 @@ func checkAtomicEvaluation() {
 			},
 			"parents": []any{},
 		},
-	}	
+	}
 
-	req := permguard.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
+	req := azreq.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
 		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
 		// RequestID
 		WithRequestID("1234").
@@ -80,44 +81,44 @@ func checkMultipleEvaluations() {
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
 
-	principal := permguard.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
 	// Create a new subject
-	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
+	subject := azreq.NewSubjectBuilder("amy.smith@acmecorp.com").
 		WithKind("user").
 		WithSource("keycloack").
 		WithProperty("isSuperUser", true).
 		Build()
 
 	// Create a new resource
-	resource := permguard.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
+	resource := azreq.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
 		WithID("e3a786fd07e24bfa95ba4341d3695ae8").
 		WithProperty("isEnabled", true).
 		Build()
 
 	// Create ations
-	actionView := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::view").
+	actionView := azreq.NewActionBuilder("MagicFarmacia::Platform::Action::view").
 		WithProperty("isEnabled", true).
 		Build()
-		
-	actionCreate := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::create").
+
+	actionCreate := azreq.NewActionBuilder("MagicFarmacia::Platform::Action::create").
 		WithProperty("isEnabled", true).
 		Build()
 
 	// Create a new Context
-	context := permguard.NewContextBuilder().
+	context := azreq.NewContextBuilder().
 		WithProperty("time", "2025-01-23T16:17:46+00:00").
 		WithProperty("isSubscriptionActive", true).
 		Build()
 
 	// Create evaluations
-	evaluationView := permguard.NewAZEvaluationBuilder(subject, resource, actionView).
+	evaluationView := azreq.NewAZEvaluationBuilder(subject, resource, actionView).
 		WithRequestID("1234").
 		WithPrincipal(principal).
 		WithContext(context).
 		Build()
 
-	evaluationCreate := permguard.NewAZEvaluationBuilder(subject, resource, actionCreate).
+	evaluationCreate := azreq.NewAZEvaluationBuilder(subject, resource, actionCreate).
 		WithRequestID("7890").
 		WithPrincipal(principal).
 		WithContext(context).
@@ -134,10 +135,10 @@ func checkMultipleEvaluations() {
 			},
 			"parents": []any{},
 		},
-	}	
+	}
 
 	// Create a new request
-	req := permguard.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+	req := azreq.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
 		WithEntitiesItems("cedar", entities).
 		WithEvaluation(evaluationView).
 		WithEvaluation(evaluationCreate).

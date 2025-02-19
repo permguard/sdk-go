@@ -14,7 +14,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package permguard
+package azreq
 
 // AZEvaluation is the AZEvaluation object.
 type AZEvaluation struct {

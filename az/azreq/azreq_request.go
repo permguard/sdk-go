@@ -14,15 +14,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package permguard
+package azreq
 
 // AZRequest is the AZRequest object.
 type AZRequest struct {
 	zoneID          uint64
 	policyStoreType string
 	policyStoreID   string
-	entitiesSchema	string
-	entitiesItems	[]map[string]any
+	entitiesSchema  string
+	entitiesItems   []map[string]any
 	evaluations     []AZEvaluation
 }
 

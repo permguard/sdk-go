@@ -14,7 +14,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package permguard
+package azreq
 
 // AZAtomicRequestBuilder is the builder for the AZAtomicRequest object.
 type AZAtomicRequestBuilder struct {
