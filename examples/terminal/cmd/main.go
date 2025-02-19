@@ -23,7 +23,7 @@ import (
 )
 
 func checkAtomicEvaluation() {
-	// Create a new PermGuard client
+	// Create a new Permguard client
 	azClient := permguard.NewAZClient(
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
@@ -60,7 +60,7 @@ func checkAtomicEvaluation() {
 
 // checkMultipleEvaluations checks multiple evaluations
 func checkMultipleEvaluations() {
-	// Create a new PermGuard client
+	// Create a new Permguard client
 	azClient := permguard.NewAZClient(
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
