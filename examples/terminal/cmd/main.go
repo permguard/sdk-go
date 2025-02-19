@@ -80,8 +80,12 @@ func checkMultipleEvaluations() {
 		WithProperty("isEnabled", true).
 		Build()
 
-	// Create a new action
-	action := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::view").
+	// Create ations
+	actionView := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::view").
+		WithProperty("isEnabled", true).
+		Build()
+		
+	actionCreate := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::create").
 		WithProperty("isEnabled", true).
 		Build()
 
@@ -91,16 +95,23 @@ func checkMultipleEvaluations() {
 		WithProperty("isSubscriptionActive", true).
 		Build()
 
-	// Create a new evaluation
-	evaluation := permguard.NewAZEvaluationBuilder(subject, resource, action).
+	// Create evaluations
+	evaluationView := permguard.NewAZEvaluationBuilder(subject, resource, actionView).
 		WithRequestID("1234").
+		WithPrincipal(principal).
+		WithContext(context).
+		Build()
+
+	evaluationCreate := permguard.NewAZEvaluationBuilder(subject, resource, actionCreate).
+		WithRequestID("7890").
 		WithPrincipal(principal).
 		WithContext(context).
 		Build()
 
 	// Create a new request
 	req := permguard.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
-		WithEvaluation(evaluation).
+		WithEvaluation(evaluationView).
+		WithEvaluation(evaluationCreate).
 		Build()
 
 	// Check the authorization
