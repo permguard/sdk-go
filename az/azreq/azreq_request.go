@@ -16,11 +16,17 @@
 
 package azreq
 
+const (
+	// CedarEntityKind is the kind of the Cedar entity.
+	CedarEntityKind = "cedar"
+)
+
 // AZRequest is the AZRequest object.
 type AZRequest struct {
 	zoneID          uint64
-	policyStoreType string
+	policyStoreKind string
 	policyStoreID   string
+	principal       *Principal
 	entitiesSchema  string
 	entitiesItems   []map[string]any
 	evaluations     []AZEvaluation
@@ -31,9 +37,14 @@ func (u *AZRequest) GetZoneID() uint64 {
 	return u.zoneID
 }
 
-// GetPolicyStoreType returns the policy store type of the AZRequest.
-func (u *AZRequest) GetPolicyStoreType() string {
-	return u.policyStoreType
+// GetPolicyStoreKind returns the policy store kind of the AZRequest.
+func (u *AZRequest) GetPolicyStoreKind() string {
+	return u.policyStoreKind
+}
+
+// GetPolicyStoreID returns the policy store ID of the AZRequest.
+func (u *AZRequest) GetPolicyStoreID() string {
+	return u.policyStoreID
 }
 
 // GetEntitiesSchema returns the entities schema of the AZRequest.
@@ -41,14 +52,14 @@ func (u *AZRequest) GetEntitiesSchema() string {
 	return u.entitiesSchema
 }
 
+// GetPrincipal returns the principal of the AZEvaluation.
+func (u *AZRequest) GetPrincipal() *Principal {
+	return u.principal
+}
+
 // GetEntitiesItems returns the entities items of the AZRequest.
 func (u *AZRequest) GetEntitiesItems() []map[string]any {
 	return u.entitiesItems
-}
-
-// GetPolicyStoreID returns the policy store ID of the AZRequest.
-func (u *AZRequest) GetPolicyStoreID() string {
-	return u.policyStoreID
 }
 
 // GetEvaluations returns the evaluations of the AZRequest.
@@ -66,13 +77,19 @@ func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 	return &AZRequestBuilder{
 		azRequest: &AZRequest{
 			zoneID:          zoneID,
-			policyStoreType: "ledger",
+			policyStoreKind: "ledger",
 			policyStoreID:   ledgerID,
 			entitiesSchema:  "",
 			entitiesItems:   []map[string]any{},
 			evaluations:     []AZEvaluation{},
 		},
 	}
+}
+
+// WithPrincipal sets the principal of the AZEvaluation.
+func (b *AZRequestBuilder) WithPrincipal(principal *Principal) *AZRequestBuilder {
+	b.azRequest.principal = principal
+	return b
 }
 
 // WithEntitiesMap sets the entities map to the AZRequest.

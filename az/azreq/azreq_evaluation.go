@@ -19,7 +19,6 @@ package azreq
 // AZEvaluation is the AZEvaluation object.
 type AZEvaluation struct {
 	requestID string
-	principal *Principal
 	subject   *Subject
 	resource  *Resource
 	action    *Action
@@ -29,11 +28,6 @@ type AZEvaluation struct {
 // GetRequestID returns the request ID of the AZEvaluation.
 func (u *AZEvaluation) GetRequestID() string {
 	return u.requestID
-}
-
-// GetPrincipal returns the principal of the AZEvaluation.
-func (u *AZEvaluation) GetPrincipal() *Principal {
-	return u.principal
 }
 
 // GetSubject returns the subject of the AZEvaluation.
@@ -75,12 +69,6 @@ func NewAZEvaluationBuilder(subject *Subject, resource *Resource, action *Action
 // WithRequestID sets the request ID of the AZEvaluation.
 func (b *AZEvaluationBuilder) WithRequestID(requestID string) *AZEvaluationBuilder {
 	b.azEvaluation.requestID = requestID
-	return b
-}
-
-// WithPrincipal sets the principal of the AZEvaluation.
-func (b *AZEvaluationBuilder) WithPrincipal(principal *Principal) *AZEvaluationBuilder {
-	b.azEvaluation.principal = principal
 	return b
 }
 

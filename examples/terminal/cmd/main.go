@@ -51,7 +51,7 @@ func checkAtomicEvaluation() {
 		// Principal
 		WithPrincipal(principal).
 		// Entities
-		WithEntitiesItems("cedar", entities).
+		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		// Subject
 		WithSubjectKind("user").
 		WithSubjectSource("keycloack").
@@ -80,8 +80,6 @@ func checkMultipleEvaluations() {
 	azClient := permguard.NewAZClient(
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
-
-	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
 	// Create a new subject
 	subject := azreq.NewSubjectBuilder("amy.smith@acmecorp.com").
@@ -114,15 +112,15 @@ func checkMultipleEvaluations() {
 	// Create evaluations
 	evaluationView := azreq.NewAZEvaluationBuilder(subject, resource, actionView).
 		WithRequestID("1234").
-		WithPrincipal(principal).
 		WithContext(context).
 		Build()
 
 	evaluationCreate := azreq.NewAZEvaluationBuilder(subject, resource, actionCreate).
 		WithRequestID("7890").
-		WithPrincipal(principal).
 		WithContext(context).
 		Build()
+
+	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
 	entities := []map[string]any{
 		{
@@ -139,7 +137,8 @@ func checkMultipleEvaluations() {
 
 	// Create a new request
 	req := azreq.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
-		WithEntitiesItems("cedar", entities).
+		WithPrincipal(principal).
+		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		WithEvaluation(evaluationView).
 		WithEvaluation(evaluationCreate).
 		Build()
