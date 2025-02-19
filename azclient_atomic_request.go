@@ -43,55 +43,67 @@ func NewAZAtomicRequestBuilder(zoneID uint64, ledgerID, subjectID, resourceKind,
 	}
 }
 
-// WithRequestID sets the ID of the request.
+// WithEntitiesMap sets the entities map to the AZRequest.
+func (b *AZAtomicRequestBuilder) WithEntitiesMap(schema string, entities map[string]any) *AZAtomicRequestBuilder {
+	b.WithEntitiesMap(schema, entities)
+	return b
+}
+
+// WithEntitiesItems sets the entities items to the AZRequest.
+func (b *AZAtomicRequestBuilder) WithEntitiesItems(schema string, entities []map[string]any) *AZAtomicRequestBuilder {
+	b.WithEntitiesItems(schema, entities)
+	return b
+}
+
+// WithRequestID sets the ID of the AZRequest.
 func (b *AZAtomicRequestBuilder) WithRequestID(requestID string) *AZAtomicRequestBuilder {
 	b.requestID = requestID
 	return b
 }
 
-// WithPrincipal sets the principal of the request.
+// WithPrincipal sets the principal of the AZRequest.
 func (b *AZAtomicRequestBuilder) WithPrincipal(principal *Principal) *AZAtomicRequestBuilder {
 	b.principal = principal
 	return b
 }
 
-// WithSubjectSource sets the source of the subject.
+// WithSubjectKind sets the kind of the subject for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithSubjectKind(kind string) *AZAtomicRequestBuilder {
 	b.azSubjectBuilder.WithKind(kind)
 	return b
 }
 
-// WithSubjectSource sets the source of the subject.
+// WithSubjectSource sets the source of the subject for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithSubjectSource(source string) *AZAtomicRequestBuilder {
 	b.azSubjectBuilder.WithSource(source)
 	return b
 }
 
-// WithSubjectProperty sets a property of the subject.
+// WithSubjectProperty sets a property of the subject for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithSubjectProperty(key string, value interface{}) *AZAtomicRequestBuilder {
 	b.azSubjectBuilder.WithProperty(key, value)
 	return b
 }
 
-// WithResourceID sets the ID of the resource.
+// WithResourceID sets the ID of the resource for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithResourceID(id string) *AZAtomicRequestBuilder {
 	b.azResourceBuilder.WithID(id)
 	return b
 }
 
-// WithResourceProperty sets a property of the resource.
+// WithResourceProperty sets a property of the resource for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithResourceProperty(key string, value interface{}) *AZAtomicRequestBuilder {
 	b.azResourceBuilder.WithProperty(key, value)
 	return b
 }
 
-// WithActionProperty sets a property of the action.
+// WithActionProperty sets a property of the action for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithActionProperty(key string, value interface{}) *AZAtomicRequestBuilder {
 	b.azActionBuilder.WithProperty(key, value)
 	return b
 }
 
-// WithContextProperty sets a property of the context.
+// WithContextProperty sets a property of the context for the AZRequest.
 func (b *AZAtomicRequestBuilder) WithContextProperty(key string, value interface{}) *AZAtomicRequestBuilder {
 	b.azContextBuilder.WithProperty(key, value)
 	return b

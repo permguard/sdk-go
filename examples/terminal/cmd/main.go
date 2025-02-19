@@ -30,12 +30,27 @@ func checkAtomicEvaluation() {
 
 	principal := permguard.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
+	entities := []map[string]any{
+		{
+			"uid": map[string]any{
+				"type": "MagicFarmacia::Platform::BranchInfo",
+				"id":   "subscription",
+			},
+			"attrs": map[string]any{
+				"active": true,
+			},
+			"parents": []any{},
+		},
+	}	
+
 	req := permguard.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
 		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
 		// RequestID
 		WithRequestID("1234").
 		// Principal
 		WithPrincipal(principal).
+		// Entities
+		WithEntitiesItems("cedar", entities).
 		// Subject
 		WithSubjectKind("user").
 		WithSubjectSource("keycloack").
@@ -108,8 +123,22 @@ func checkMultipleEvaluations() {
 		WithContext(context).
 		Build()
 
+	entities := []map[string]any{
+		{
+			"uid": map[string]any{
+				"type": "MagicFarmacia::Platform::BranchInfo",
+				"id":   "subscription",
+			},
+			"attrs": map[string]any{
+				"active": true,
+			},
+			"parents": []any{},
+		},
+	}	
+
 	// Create a new request
 	req := permguard.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+		WithEntitiesItems("cedar", entities).
 		WithEvaluation(evaluationView).
 		WithEvaluation(evaluationCreate).
 		Build()

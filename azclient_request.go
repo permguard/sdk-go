@@ -21,6 +21,8 @@ type AZRequest struct {
 	zoneID          uint64
 	policyStoreType string
 	policyStoreID   string
+	entitiesSchema	string
+	entitiesItems	[]map[string]any
 	evaluations     []AZEvaluation
 }
 
@@ -32,6 +34,16 @@ func (u *AZRequest) GetZoneID() uint64 {
 // GetPolicyStoreType returns the policy store type of the AZRequest.
 func (u *AZRequest) GetPolicyStoreType() string {
 	return u.policyStoreType
+}
+
+// GetEntitiesSchema returns the entities schema of the AZRequest.
+func (u *AZRequest) GetEntitiesSchema() string {
+	return u.entitiesSchema
+}
+
+// GetEntitiesItems returns the entities items of the AZRequest.
+func (u *AZRequest) GetEntitiesItems() []map[string]any {
+	return u.entitiesItems
 }
 
 // GetPolicyStoreID returns the policy store ID of the AZRequest.
@@ -56,9 +68,28 @@ func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 			zoneID:          zoneID,
 			policyStoreType: "ledger",
 			policyStoreID:   ledgerID,
+			entitiesSchema:  "",
+			entitiesItems:   []map[string]any{},
 			evaluations:     []AZEvaluation{},
 		},
 	}
+}
+
+// WithEntitiesMap sets the entities map to the AZRequest.
+func (b *AZRequestBuilder) WithEntitiesMap(schema string, entities map[string]any) *AZRequestBuilder {
+	b.azRequest.entitiesSchema = schema
+	b.azRequest.entitiesItems = []map[string]any{entities}
+	return b
+}
+
+// WithEntitiesItems sets the entities items to the AZRequest.
+func (b *AZRequestBuilder) WithEntitiesItems(schema string, entities []map[string]any) *AZRequestBuilder {
+	b.azRequest.entitiesSchema = schema
+	b.azRequest.entitiesItems = entities
+	if b.azRequest.entitiesItems == nil {
+		b.azRequest.entitiesItems = []map[string]any{}
+	}
+	return b
 }
 
 // WithEvaluation adds an evaluation to the AZRequest.
