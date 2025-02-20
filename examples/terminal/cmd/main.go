@@ -29,8 +29,10 @@ func checkAtomicEvaluation() {
 		permguard.WithPDPEndpoint("localhost", 9094),
 	)
 
+	// Create the Principal
 	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
+	// Create the entities
 	entities := []map[string]any{
 		{
 			"uid": map[string]any{
@@ -120,8 +122,10 @@ func checkMultipleEvaluations() {
 		WithContext(context).
 		Build()
 
+	// Create the Principal
 	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
+	// Create the entities
 	entities := []map[string]any{
 		{
 			"uid": map[string]any{
