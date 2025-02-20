@@ -22,7 +22,7 @@ type AZEvaluation struct {
 	subject   *Subject
 	resource  *Resource
 	action    *Action
-	context   *Context
+	context   map[string]any
 }
 
 // GetRequestID returns the request ID of the AZEvaluation.
@@ -46,7 +46,7 @@ func (u *AZEvaluation) GetAction() *Action {
 }
 
 // GetContext returns the context of the AZEvaluation.
-func (u *AZEvaluation) GetContext() *Context {
+func (u *AZEvaluation) GetContext() map[string]any {
 	return u.context
 }
 
@@ -73,7 +73,7 @@ func (b *AZEvaluationBuilder) WithRequestID(requestID string) *AZEvaluationBuild
 }
 
 // WithContext sets the context of the AZEvaluation.
-func (b *AZEvaluationBuilder) WithContext(context *Context) *AZEvaluationBuilder {
+func (b *AZEvaluationBuilder) WithContext(context map[string]any) *AZEvaluationBuilder {
 	b.azEvaluation.context = context
 	return b
 }
