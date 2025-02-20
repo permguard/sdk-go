@@ -30,8 +30,8 @@ type AZConfig struct {
 	pdpEndpoint *azEndpoint
 }
 
-// WithPDPEndpoint sets the gRPC endpoint for the authorization server.
-func WithPDPEndpoint(endpoint string, port int) AZOption {
+// WithEndpoint sets the gRPC endpoint for the authorization server.
+func WithEndpoint(endpoint string, port int) AZOption {
 	return func(c *AZConfig) {
 		c.pdpEndpoint = &azEndpoint{
 			endpoint: endpoint,
