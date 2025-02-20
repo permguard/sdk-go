@@ -20,43 +20,51 @@ import (
 	"fmt"
 
 	"github.com/permguard/permguard-go"
+	"github.com/permguard/permguard-go/az/azreq"
 )
 
-func main() {
-	// Create a new PermGuard client
+func checkAtomicEvaluation() {
+	// Create a new Permguard client
 	azClient := permguard.NewAZClient(
-		permguard.WithPDPEndpoint("localhost", 9094),
+		permguard.WithEndpoint("localhost", 9094),
 	)
 
-	// Create a new subject
-	subject := permguard.NewSubjectBuilder("amy.smith@acmecorp.com").
-		WithKind("user").
-		WithSource("keycloack").
-		WithProperty("isSuperUser", true).
-		Build()
+	// Create the Principal
+	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
-	// Create a new resource
-	resource := permguard.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
-		WithID("e3a786fd07e24bfa95ba4341d3695ae8").
-		WithProperty("isEnabled", true).
-		Build()
+	// Create the entities
+	entities := []map[string]any{
+		{
+			"uid": map[string]any{
+				"type": "MagicFarmacia::Platform::BranchInfo",
+				"id":   "subscription",
+			},
+			"attrs": map[string]any{
+				"active": true,
+			},
+			"parents": []any{},
+		},
+	}
 
-	// Create a new action
-	action := permguard.NewActionBuilder("MagicFarmacia::Platform::Action::view").
-		WithProperty("isEnabled", true).
-		Build()
-
-	// Create a new Context
-	context := permguard.NewContextBuilder().
-		WithProperty("time", "2025-01-23T16:17:46+00:00").
-		WithProperty("isSubscriptionActive", true).
-		Build()
-
-	// Create a new request
-	req := permguard.NewAZRequestBuilder(subject, resource, action).
-		WithPolicyLedger(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+	req := azreq.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
+		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
+		// RequestID
 		WithRequestID("1234").
-		WithContext(context).
+		// Principal
+		WithPrincipal(principal).
+		// Entities
+		WithEntitiesItems(azreq.CedarEntityKind, entities).
+		// Subject
+		WithSubjectKind("user").
+		WithSubjectSource("keycloack").
+		WithSubjectProperty("isSuperUser", true).
+		// Resource
+		WithResourceID("e3a786fd07e24bfa95ba4341d3695ae8").
+		WithResourceProperty("isEnabled", true).
+		// Action
+		WithActionProperty("isEnabled", true).
+		WithContextProperty("time", "2025-01-23T16:17:46+00:00").
+		WithContextProperty("isSubscriptionActive", true).
 		Build()
 
 	// Check the authorization
@@ -66,4 +74,88 @@ func main() {
 	} else {
 		fmt.Println("❌ Authorization Denied")
 	}
+}
+
+// checkMultipleEvaluations checks multiple evaluations
+func checkMultipleEvaluations() {
+	// Create a new Permguard client
+	azClient := permguard.NewAZClient(
+		permguard.WithEndpoint("localhost", 9094),
+	)
+
+	// Create a new subject
+	subject := azreq.NewSubjectBuilder("amy.smith@acmecorp.com").
+		WithKind("user").
+		WithSource("keycloack").
+		WithProperty("isSuperUser", true).
+		Build()
+
+	// Create a new resource
+	resource := azreq.NewResourceBuilder("MagicFarmacia::Platform::Subscription").
+		WithID("e3a786fd07e24bfa95ba4341d3695ae8").
+		WithProperty("isEnabled", true).
+		Build()
+
+	// Create ations
+	actionView := azreq.NewActionBuilder("MagicFarmacia::Platform::Action::view").
+		WithProperty("isEnabled", true).
+		Build()
+
+	actionCreate := azreq.NewActionBuilder("MagicFarmacia::Platform::Action::create").
+		WithProperty("isEnabled", true).
+		Build()
+
+	// Create a new Context
+	context := azreq.NewContextBuilder().
+		WithProperty("time", "2025-01-23T16:17:46+00:00").
+		WithProperty("isSubscriptionActive", true).
+		Build()
+
+	// Create evaluations
+	evaluationView := azreq.NewAZEvaluationBuilder(subject, resource, actionView).
+		WithRequestID("1234").
+		WithContext(context).
+		Build()
+
+	evaluationCreate := azreq.NewAZEvaluationBuilder(subject, resource, actionCreate).
+		WithRequestID("7890").
+		WithContext(context).
+		Build()
+
+	// Create the Principal
+	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+
+	// Create the entities
+	entities := []map[string]any{
+		{
+			"uid": map[string]any{
+				"type": "MagicFarmacia::Platform::BranchInfo",
+				"id":   "subscription",
+			},
+			"attrs": map[string]any{
+				"active": true,
+			},
+			"parents": []any{},
+		},
+	}
+
+	// Create a new request
+	req := azreq.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+		WithPrincipal(principal).
+		WithEntitiesItems(azreq.CedarEntityKind, entities).
+		WithEvaluation(evaluationView).
+		WithEvaluation(evaluationCreate).
+		Build()
+
+	// Check the authorization
+	decsion := azClient.Check(req)
+	if decsion {
+		fmt.Println("✅ Authorization Permitted")
+	} else {
+		fmt.Println("❌ Authorization Denied")
+	}
+}
+
+func main() {
+	checkMultipleEvaluations()
 }

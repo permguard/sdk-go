@@ -16,6 +16,10 @@
 
 package permguard
 
+import (
+	"github.com/permguard/permguard-go/az/azreq"
+)
+
 // AZClient is the client to interact with the authorization server.
 type AZClient struct {
 	azConfig *AZConfig
@@ -37,6 +41,6 @@ func NewAZClient(opts ...AZOption) *AZClient {
 }
 
 // Check checks the input authorization request with the authorization server.
-func (c *AZClient) Check(req *AZRequest) bool {
+func (c *AZClient) Check(req *azreq.AZRequest) bool {
 	return false
 }
