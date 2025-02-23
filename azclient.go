@@ -18,12 +18,12 @@ package permguard
 
 import (
 	"fmt"
-	
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"github.com/permguard/permguard-go/az/azreq"
 
-	iazreqv1 "github.com/permguard/permguard-go/internal/az/azreq/grpc/v1"
+	"github.com/permguard/permguard-go/internal/az/azreq/grpc/v1"
 )
 
 // AZClient is the client to interact with the authorization server.
@@ -53,6 +53,7 @@ func (c *AZClient) Check(req *azreq.AZRequest) bool {
 	if err != nil {
 		return false
 	}
-	client := iazreqv1.NewV1PDPServiceClient(conn)
+	client := v1.NewV1PDPServiceClient(conn)
+	fmt.Println(client)
 	return false
 }
