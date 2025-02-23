@@ -40,8 +40,8 @@ func (b *ActionBuilder) WithProperty(key string, value any) *ActionBuilder {
 }
 
 // Build builds the action object.
-func (b *ActionBuilder) Build() Action {
+func (b *ActionBuilder) Build() *Action {
 	instance := *b.action
 	instance.properties = deepCopyMap(instance.properties)
-	return instance
+	return &instance
 }

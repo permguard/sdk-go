@@ -46,8 +46,8 @@ func (b *ResourceBuilder) WithProperty(key string, value any) *ResourceBuilder {
 }
 
 // Build builds the resource object.
-func (b *ResourceBuilder) Build() Resource {
+func (b *ResourceBuilder) Build() *Resource {
 	instance := *b.resource
 	instance.properties = deepCopyMap(instance.properties)
-	return instance
+	return &instance
 }

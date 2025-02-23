@@ -43,7 +43,7 @@ func (b *PrincipalBuilder) WithSource(source string) *PrincipalBuilder {
 }
 
 // Build builds the principal object.
-func (b *PrincipalBuilder) Build() Principal {
+func (b *PrincipalBuilder) Build() *Principal {
 	instance := *b.principal
-	return instance
+	return &instance
 }

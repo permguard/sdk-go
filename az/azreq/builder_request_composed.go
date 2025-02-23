@@ -78,7 +78,7 @@ func (b *AZRequestBuilder) WithEvaluation(evaluation *Evaluation) *AZRequestBuil
 }
 
 // Build builds the AZRequest object.
-func (b *AZRequestBuilder) Build() AZRequest {
+func (b *AZRequestBuilder) Build() *AZRequest {
 	instance := *b.azRequest
-	return instance
+	return &instance
 }

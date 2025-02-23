@@ -112,12 +112,12 @@ func checkMultipleEvaluations() {
 		Build()
 
 	// Create evaluations
-	evaluationView := azreq.NewAZEvaluationBuilder(subject, resource, actionView).
+	evaluationView := azreq.NewEvaluationBuilder(subject, resource, actionView).
 		WithRequestID("1234").
 		WithContext(context).
 		Build()
 
-	evaluationCreate := azreq.NewAZEvaluationBuilder(subject, resource, actionCreate).
+	evaluationCreate := azreq.NewEvaluationBuilder(subject, resource, actionCreate).
 		WithRequestID("7890").
 		WithContext(context).
 		Build()

@@ -45,8 +45,8 @@ func (b *EvaluationBuilder) WithContext(context map[string]any) *EvaluationBuild
 }
 
 // Build builds the Evaluation object.
-func (b *EvaluationBuilder) Build() Evaluation {
+func (b *EvaluationBuilder) Build() *Evaluation {
 	instance := *b.azEvaluation
 	instance.context = deepCopyMap(instance.context)
-	return instance
+	return &instance
 }

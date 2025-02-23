@@ -52,8 +52,8 @@ func (b *SubjectBuilder) WithProperty(key string, value any) *SubjectBuilder {
 }
 
 // Build builds the subject object.
-func (b *SubjectBuilder) Build() Subject {
+func (b *SubjectBuilder) Build() *Subject {
 	instance := *b.subject
 	instance.properties = deepCopyMap(instance.properties)
-	return instance
+	return &instance
 }
