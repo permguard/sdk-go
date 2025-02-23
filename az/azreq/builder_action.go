@@ -16,22 +16,6 @@
 
 package azreq
 
-// Action is the action object.
-type Action struct {
-	name       string
-	properties map[string]any
-}
-
-// GetName returns the name of the action.
-func (u *Action) GetName() string {
-	return u.name
-}
-
-// GetProperties returns the properties of the action.
-func (u *Action) GetProperties() map[string]any {
-	return u.properties
-}
-
 // ActionBuilder is the builder for the action object.
 type ActionBuilder struct {
 	action *Action
@@ -56,6 +40,8 @@ func (b *ActionBuilder) WithProperty(key string, value any) *ActionBuilder {
 }
 
 // Build builds the action object.
-func (b *ActionBuilder) Build() *Action {
-	return b.action
+func (b *ActionBuilder) Build() Action {
+	instance := *b.action
+	instance.properties = deepCopyMap(instance.properties)
+	return instance
 }

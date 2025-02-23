@@ -110,14 +110,14 @@ func (b *AZAtomicRequestBuilder) WithContextProperty(key string, value interface
 }
 
 // Build builds the AZAtomicRequest object.
-func (b *AZAtomicRequestBuilder) Build() *AZRequest {
+func (b *AZAtomicRequestBuilder) Build() AZRequest {
 	subject := b.azSubjectBuilder.Build()
 	resource := b.azResourceBuilder.Build()
 	action := b.azActionBuilder.Build()
 	context := b.azContextBuilder.Build()
-	azEvaluation := NewAZEvaluationBuilder(subject, resource, action).
+	azEvaluation := NewEvaluationBuilder(&subject, &resource, &action).
 		WithContext(context).
 		Build()
-	b.azRequestBuilder.WithEvaluation(azEvaluation)
+	b.azRequestBuilder.WithEvaluation(&azEvaluation)
 	return b.azRequestBuilder.Build()
 }

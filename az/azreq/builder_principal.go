@@ -16,28 +16,6 @@
 
 package azreq
 
-// Principal is the principal object.
-type Principal struct {
-	kind   string
-	id     string
-	source string
-}
-
-// GetKind returns the kind of the principal.
-func (u *Principal) GetKind() string {
-	return u.kind
-}
-
-// GetID returns the ID of the principal.
-func (u *Principal) GetID() string {
-	return u.id
-}
-
-// GetSource returns the source of the principal.
-func (u *Principal) GetSource() string {
-	return u.source
-}
-
 // PrincipalBuilder is the builder for the principal object.
 type PrincipalBuilder struct {
 	principal *Principal
@@ -65,6 +43,7 @@ func (b *PrincipalBuilder) WithSource(source string) *PrincipalBuilder {
 }
 
 // Build builds the principal object.
-func (b *PrincipalBuilder) Build() *Principal {
-	return b.principal
+func (b *PrincipalBuilder) Build() Principal {
+	instance := *b.principal
+	return instance
 }

@@ -16,34 +16,6 @@
 
 package azreq
 
-// Subject is the subject object.
-type Subject struct {
-	kind       string
-	id         string
-	source     string
-	properties map[string]any
-}
-
-// GetKind returns the kind of the subject.
-func (u *Subject) GetKind() string {
-	return u.kind
-}
-
-// GetID returns the ID of the subject.
-func (u *Subject) GetID() string {
-	return u.id
-}
-
-// GetSource returns the source of the subject.
-func (u *Subject) GetSource() string {
-	return u.source
-}
-
-// GetProperties returns the properties of the subject.
-func (u *Subject) GetProperties() map[string]any {
-	return u.properties
-}
-
 // SubjectBuilder is the builder for the subject object.
 type SubjectBuilder struct {
 	subject *Subject
@@ -80,6 +52,8 @@ func (b *SubjectBuilder) WithProperty(key string, value any) *SubjectBuilder {
 }
 
 // Build builds the subject object.
-func (b *SubjectBuilder) Build() *Subject {
-	return b.subject
+func (b *SubjectBuilder) Build() Subject {
+	instance := *b.subject
+	instance.properties = deepCopyMap(instance.properties)
+	return instance
 }

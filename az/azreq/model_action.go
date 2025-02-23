@@ -16,28 +16,18 @@
 
 package azreq
 
-// ContextBuilder is the builder for the context object.
-type ContextBuilder struct {
-	context map[string]any
+// Action is the action object.
+type Action struct {
+	name       string
+	properties map[string]any
 }
 
-// NewContextBuilder creates a new context builder.
-func NewContextBuilder() *ContextBuilder {
-	return &ContextBuilder{
-		context: map[string]any{},
-	}
+// GetName returns the name of the action.
+func (u *Action) GetName() string {
+	return u.name
 }
 
-// WithProperty sets the property of the context.
-func (b *ContextBuilder) WithProperty(key string, value any) *ContextBuilder {
-	if b.context == nil {
-		b.context = map[string]any{}
-	}
-	b.context[key] = value
-	return b
-}
-
-// Build builds the context object.
-func (b *ContextBuilder) Build() map[string]any {
-	return b.context
+// GetProperties returns the properties of the action.
+func (u *Action) GetProperties() map[string]any {
+	return u.properties
 }

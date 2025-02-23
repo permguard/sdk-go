@@ -37,37 +37,3 @@ func (u *Resource) GetID() string {
 func (u *Resource) GetProperties() map[string]any {
 	return u.properties
 }
-
-// ResourceBuilder is the builder for the resource object.
-type ResourceBuilder struct {
-	resource *Resource
-}
-
-// NewResourceBuilder creates a new resource builder.
-func NewResourceBuilder(kind string) *ResourceBuilder {
-	return &ResourceBuilder{
-		resource: &Resource{
-			kind: kind,
-		},
-	}
-}
-
-// WithID sets the id of the resource.
-func (b *ResourceBuilder) WithID(kind string) *ResourceBuilder {
-	b.resource.kind = kind
-	return b
-}
-
-// WithProperty sets the property of the resource.
-func (b *ResourceBuilder) WithProperty(key string, value any) *ResourceBuilder {
-	if b.resource.properties == nil {
-		b.resource.properties = make(map[string]any)
-	}
-	b.resource.properties[key] = value
-	return b
-}
-
-// Build builds the resource object.
-func (b *ResourceBuilder) Build() *Resource {
-	return b.resource
-}
