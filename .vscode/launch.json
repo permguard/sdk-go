@@ -1,0 +1,13 @@
+{
+  "Syntax": "0.2.0",
+  "configurations": [
+      {
+        "name": "example-go",
+        "type": "go",
+        "request": "launch",
+        "mode": "auto",
+        "program": "./examples/terminal/cmd/main.go",
+        "args": [],
+      }
+  ]
+}

@@ -54,6 +54,14 @@ func (c *AZClient) Check(req *azreq.AZRequest) bool {
 		return false
 	}
 	client := v1.NewV1PDPServiceClient(conn)
-	fmt.Println(client)
-	return false
+	azCheckRequest := &v1.AuthorizationCheckRequest{
+		AuthorizationModel: &v1.AuthorizationModelRequest{
+			ZoneID: int64(req.GetAuthZModel().GetZoneID()),
+		},
+	}
+	azCheckResponse, err := client.AuthorizationCheck(nil, azCheckRequest)
+	if err != nil {
+		return false
+	}
+	return azCheckResponse.Decision
 }
