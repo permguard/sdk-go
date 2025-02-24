@@ -16,38 +16,29 @@
 
 package azreq
 
-// Context is the context object.
-type Context struct {
-	properties map[string]any
-}
-
-// GetProperties returns the properties of the context.
-func (u *Context) GetProperties() map[string]any {
-	return u.properties
-}
-
 // ContextBuilder is the builder for the context object.
 type ContextBuilder struct {
-	context *Context
+	context map[string]any
 }
 
 // NewContextBuilder creates a new context builder.
 func NewContextBuilder() *ContextBuilder {
 	return &ContextBuilder{
-		context: &Context{},
+		context: map[string]any{},
 	}
 }
 
 // WithProperty sets the property of the context.
 func (b *ContextBuilder) WithProperty(key string, value any) *ContextBuilder {
-	if b.context.properties == nil {
-		b.context.properties = make(map[string]any)
+	if b.context == nil {
+		b.context = map[string]any{}
 	}
-	b.context.properties[key] = value
+	b.context[key] = value
 	return b
 }
 
 // Build builds the context object.
-func (b *ContextBuilder) Build() *Context {
-	return b.context
+func (b *ContextBuilder) Build() map[string]any {
+	instance := deepCopyMap(b.context)
+	return instance
 }

@@ -115,7 +115,7 @@ func (b *AZAtomicRequestBuilder) Build() *AZRequest {
 	resource := b.azResourceBuilder.Build()
 	action := b.azActionBuilder.Build()
 	context := b.azContextBuilder.Build()
-	azEvaluation := NewAZEvaluationBuilder(subject, resource, action).
+	azEvaluation := NewEvaluationBuilder(subject, resource, action).
 		WithContext(context).
 		Build()
 	b.azRequestBuilder.WithEvaluation(azEvaluation)

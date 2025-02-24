@@ -41,7 +41,7 @@ const (
 // PolicyStore is the location where policies are maintained.
 type PolicyStore struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          string                 `protobuf:"bytes,1,opt,name=Type,proto3" json:"Type,omitempty"`
+	Kind          string                 `protobuf:"bytes,1,opt,name=Kind,proto3" json:"Kind,omitempty"`
 	ID            string                 `protobuf:"bytes,2,opt,name=ID,proto3" json:"ID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -77,9 +77,9 @@ func (*PolicyStore) Descriptor() ([]byte, []int) {
 	return file_pdp_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PolicyStore) GetType() string {
+func (x *PolicyStore) GetKind() string {
 	if x != nil {
-		return x.Type
+		return x.Kind
 	}
 	return ""
 }
@@ -94,7 +94,7 @@ func (x *PolicyStore) GetID() string {
 // Principal represents the entity making the request.
 type Principal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          string                 `protobuf:"bytes,1,opt,name=Type,proto3" json:"Type,omitempty"`
+	Kind          string                 `protobuf:"bytes,1,opt,name=Kind,proto3" json:"Kind,omitempty"`
 	ID            string                 `protobuf:"bytes,2,opt,name=ID,proto3" json:"ID,omitempty"`
 	Source        *string                `protobuf:"bytes,3,opt,name=Source,proto3,oneof" json:"Source,omitempty"`
 	IdentityToken *string                `protobuf:"bytes,4,opt,name=IdentityToken,proto3,oneof" json:"IdentityToken,omitempty"`
@@ -133,9 +133,9 @@ func (*Principal) Descriptor() ([]byte, []int) {
 	return file_pdp_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Principal) GetType() string {
+func (x *Principal) GetKind() string {
 	if x != nil {
-		return x.Type
+		return x.Kind
 	}
 	return ""
 }
@@ -224,7 +224,7 @@ func (x *Entities) GetItems() []*structpb.Struct {
 // Subject is the entity on which the authorization decision is made.
 type Subject struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          string                 `protobuf:"bytes,1,opt,name=Type,proto3" json:"Type,omitempty"`
+	Kind          string                 `protobuf:"bytes,1,opt,name=Kind,proto3" json:"Kind,omitempty"`
 	ID            string                 `protobuf:"bytes,2,opt,name=ID,proto3" json:"ID,omitempty"`
 	Source        *string                `protobuf:"bytes,3,opt,name=Source,proto3,oneof" json:"Source,omitempty"`
 	Properties    *structpb.Struct       `protobuf:"bytes,4,opt,name=Properties,proto3,oneof" json:"Properties,omitempty"`
@@ -262,9 +262,9 @@ func (*Subject) Descriptor() ([]byte, []int) {
 	return file_pdp_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *Subject) GetType() string {
+func (x *Subject) GetKind() string {
 	if x != nil {
-		return x.Type
+		return x.Kind
 	}
 	return ""
 }
@@ -293,7 +293,7 @@ func (x *Subject) GetProperties() *structpb.Struct {
 // Resource is the entity on which the authorization decision is made.
 type Resource struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          string                 `protobuf:"bytes,1,opt,name=Type,proto3" json:"Type,omitempty"`
+	Kind          string                 `protobuf:"bytes,1,opt,name=Kind,proto3" json:"Kind,omitempty"`
 	ID            string                 `protobuf:"bytes,2,opt,name=ID,proto3" json:"ID,omitempty"`
 	Properties    *structpb.Struct       `protobuf:"bytes,3,opt,name=Properties,proto3,oneof" json:"Properties,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -330,9 +330,9 @@ func (*Resource) Descriptor() ([]byte, []int) {
 	return file_pdp_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *Resource) GetType() string {
+func (x *Resource) GetKind() string {
 	if x != nil {
-		return x.Type
+		return x.Kind
 	}
 	return ""
 }
@@ -404,8 +404,8 @@ func (x *Action) GetProperties() *structpb.Struct {
 	return nil
 }
 
-// AuthorizationmodelRequest is the input context for making the authorization decision.
-type AuthorizationmodelRequest struct {
+// AuthorizationModelRequest is the input context for making the authorization decision.
+type AuthorizationModelRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ZoneID        int64                  `protobuf:"varint,1,opt,name=ZoneID,proto3" json:"ZoneID,omitempty"`
 	PolicyStore   *PolicyStore           `protobuf:"bytes,2,opt,name=PolicyStore,proto3" json:"PolicyStore,omitempty"`
@@ -415,20 +415,20 @@ type AuthorizationmodelRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *AuthorizationmodelRequest) Reset() {
-	*x = AuthorizationmodelRequest{}
+func (x *AuthorizationModelRequest) Reset() {
+	*x = AuthorizationModelRequest{}
 	mi := &file_pdp_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *AuthorizationmodelRequest) String() string {
+func (x *AuthorizationModelRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AuthorizationmodelRequest) ProtoMessage() {}
+func (*AuthorizationModelRequest) ProtoMessage() {}
 
-func (x *AuthorizationmodelRequest) ProtoReflect() protoreflect.Message {
+func (x *AuthorizationModelRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pdp_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -440,33 +440,33 @@ func (x *AuthorizationmodelRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AuthorizationmodelRequest.ProtoReflect.Descriptor instead.
-func (*AuthorizationmodelRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use AuthorizationModelRequest.ProtoReflect.Descriptor instead.
+func (*AuthorizationModelRequest) Descriptor() ([]byte, []int) {
 	return file_pdp_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *AuthorizationmodelRequest) GetZoneID() int64 {
+func (x *AuthorizationModelRequest) GetZoneID() int64 {
 	if x != nil {
 		return x.ZoneID
 	}
 	return 0
 }
 
-func (x *AuthorizationmodelRequest) GetPolicyStore() *PolicyStore {
+func (x *AuthorizationModelRequest) GetPolicyStore() *PolicyStore {
 	if x != nil {
 		return x.PolicyStore
 	}
 	return nil
 }
 
-func (x *AuthorizationmodelRequest) GetPrincipal() *Principal {
+func (x *AuthorizationModelRequest) GetPrincipal() *Principal {
 	if x != nil {
 		return x.Principal
 	}
 	return nil
 }
 
-func (x *AuthorizationmodelRequest) GetEntities() *Entities {
+func (x *AuthorizationModelRequest) GetEntities() *Entities {
 	if x != nil {
 		return x.Entities
 	}
@@ -553,7 +553,7 @@ func (x *EvaluationRequest) GetContext() *structpb.Struct {
 // AuthorizationCheckRequest represents the request to perform an authorization decision.
 type AuthorizationCheckRequest struct {
 	state              protoimpl.MessageState     `protogen:"open.v1"`
-	Authorizationmodel *AuthorizationmodelRequest `protobuf:"bytes,1,opt,name=Authorizationmodel,proto3" json:"Authorizationmodel,omitempty"`
+	AuthorizationModel *AuthorizationModelRequest `protobuf:"bytes,1,opt,name=AuthorizationModel,proto3" json:"AuthorizationModel,omitempty"`
 	RequestID          *string                    `protobuf:"bytes,2,opt,name=RequestID,proto3,oneof" json:"RequestID,omitempty"`
 	Subject            *Subject                   `protobuf:"bytes,3,opt,name=Subject,proto3,oneof" json:"Subject,omitempty"`
 	Resource           *Resource                  `protobuf:"bytes,4,opt,name=Resource,proto3,oneof" json:"Resource,omitempty"`
@@ -594,9 +594,9 @@ func (*AuthorizationCheckRequest) Descriptor() ([]byte, []int) {
 	return file_pdp_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *AuthorizationCheckRequest) GetAuthorizationmodel() *AuthorizationmodelRequest {
+func (x *AuthorizationCheckRequest) GetAuthorizationModel() *AuthorizationModelRequest {
 	if x != nil {
-		return x.Authorizationmodel
+		return x.AuthorizationModel
 	}
 	return nil
 }
@@ -895,11 +895,11 @@ var file_pdp_proto_rawDesc = string([]byte{
 	0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
 	0x66, 0x2f, 0x73, 0x74, 0x72, 0x75, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x31,
 	0x0a, 0x0b, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x12, 0x12, 0x0a,
-	0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x54, 0x79, 0x70,
-	0x65, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49,
+	0x04, 0x4b, 0x69, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4b, 0x69, 0x6e,
+	0x64, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49,
 	0x44, 0x22, 0xcb, 0x01, 0x0a, 0x09, 0x50, 0x72, 0x69, 0x6e, 0x63, 0x69, 0x70, 0x61, 0x6c, 0x12,
-	0x12, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x54,
-	0x79, 0x70, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x12, 0x0a, 0x04, 0x4b, 0x69, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4b,
+	0x69, 0x6e, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x02, 0x49, 0x44, 0x12, 0x1b, 0x0a, 0x06, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20,
 	0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x06, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x88, 0x01, 0x01,
 	0x12, 0x29, 0x0a, 0x0d, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x54, 0x6f, 0x6b, 0x65,
@@ -916,8 +916,8 @@ var file_pdp_proto_rawDesc = string([]byte{
 	0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x05, 0x49, 0x74, 0x65,
 	0x6d, 0x73, 0x22, 0xa2, 0x01, 0x0a, 0x07, 0x53, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x12, 0x12,
-	0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x54, 0x79,
-	0x70, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
+	0x0a, 0x04, 0x4b, 0x69, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4b, 0x69,
+	0x6e, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
 	0x49, 0x44, 0x12, 0x1b, 0x0a, 0x06, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01,
 	0x28, 0x09, 0x48, 0x00, 0x52, 0x06, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x88, 0x01, 0x01, 0x12,
 	0x3c, 0x0a, 0x0a, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x04, 0x20,
@@ -926,8 +926,8 @@ var file_pdp_proto_rawDesc = string([]byte{
 	0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x88, 0x01, 0x01, 0x42, 0x09, 0x0a,
 	0x07, 0x5f, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x42, 0x0d, 0x0a, 0x0b, 0x5f, 0x50, 0x72, 0x6f,
 	0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x22, 0x7b, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20,
+	0x72, 0x63, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x4b, 0x69, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x4b, 0x69, 0x6e, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x02, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x3c, 0x0a, 0x0a, 0x50, 0x72, 0x6f, 0x70, 0x65,
 	0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f,
 	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74,
@@ -1091,7 +1091,7 @@ var file_pdp_proto_goTypes = []any{
 	(*Subject)(nil),                    // 3: policydecisionpoint.Subject
 	(*Resource)(nil),                   // 4: policydecisionpoint.Resource
 	(*Action)(nil),                     // 5: policydecisionpoint.Action
-	(*AuthorizationmodelRequest)(nil),  // 6: policydecisionpoint.AuthorizationmodelRequest
+	(*AuthorizationModelRequest)(nil),  // 6: policydecisionpoint.AuthorizationModelRequest
 	(*EvaluationRequest)(nil),          // 7: policydecisionpoint.EvaluationRequest
 	(*AuthorizationCheckRequest)(nil),  // 8: policydecisionpoint.AuthorizationCheckRequest
 	(*ReasonResponse)(nil),             // 9: policydecisionpoint.ReasonResponse
@@ -1105,14 +1105,14 @@ var file_pdp_proto_depIdxs = []int32{
 	13, // 1: policydecisionpoint.Subject.Properties:type_name -> google.protobuf.Struct
 	13, // 2: policydecisionpoint.Resource.Properties:type_name -> google.protobuf.Struct
 	13, // 3: policydecisionpoint.Action.Properties:type_name -> google.protobuf.Struct
-	0,  // 4: policydecisionpoint.AuthorizationmodelRequest.PolicyStore:type_name -> policydecisionpoint.PolicyStore
-	1,  // 5: policydecisionpoint.AuthorizationmodelRequest.Principal:type_name -> policydecisionpoint.Principal
-	2,  // 6: policydecisionpoint.AuthorizationmodelRequest.Entities:type_name -> policydecisionpoint.Entities
+	0,  // 4: policydecisionpoint.AuthorizationModelRequest.PolicyStore:type_name -> policydecisionpoint.PolicyStore
+	1,  // 5: policydecisionpoint.AuthorizationModelRequest.Principal:type_name -> policydecisionpoint.Principal
+	2,  // 6: policydecisionpoint.AuthorizationModelRequest.Entities:type_name -> policydecisionpoint.Entities
 	3,  // 7: policydecisionpoint.EvaluationRequest.Subject:type_name -> policydecisionpoint.Subject
 	4,  // 8: policydecisionpoint.EvaluationRequest.Resource:type_name -> policydecisionpoint.Resource
 	5,  // 9: policydecisionpoint.EvaluationRequest.Action:type_name -> policydecisionpoint.Action
 	13, // 10: policydecisionpoint.EvaluationRequest.Context:type_name -> google.protobuf.Struct
-	6,  // 11: policydecisionpoint.AuthorizationCheckRequest.Authorizationmodel:type_name -> policydecisionpoint.AuthorizationmodelRequest
+	6,  // 11: policydecisionpoint.AuthorizationCheckRequest.AuthorizationModel:type_name -> policydecisionpoint.AuthorizationModelRequest
 	3,  // 12: policydecisionpoint.AuthorizationCheckRequest.Subject:type_name -> policydecisionpoint.Subject
 	4,  // 13: policydecisionpoint.AuthorizationCheckRequest.Resource:type_name -> policydecisionpoint.Resource
 	5,  // 14: policydecisionpoint.AuthorizationCheckRequest.Action:type_name -> policydecisionpoint.Action

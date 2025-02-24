@@ -27,8 +27,8 @@ mod:
 
 protoc:
 	protoc proto/v1/*.proto \
-		--go_out=az/internal/azreq/grpc/v1 --go_opt=paths=source_relative \
-		--go-grpc_out=az/internal/azreq/grpc/v1 --go-grpc_opt=require_unimplemented_servers=false,paths=source_relative \
+		--go_out=internal/az/azreq/grpc/v1 --go_opt=paths=source_relative \
+		--go-grpc_out=internal/az/azreq/grpc/v1 --go-grpc_opt=require_unimplemented_servers=false,paths=source_relative \
 		--proto_path=proto/v1
 
 check:

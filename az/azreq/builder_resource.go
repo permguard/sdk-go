@@ -16,28 +16,6 @@
 
 package azreq
 
-// Resource is the resource object.
-type Resource struct {
-	kind       string
-	id         string
-	properties map[string]any
-}
-
-// GetKind returns the kind of the resource.
-func (u *Resource) GetKind() string {
-	return u.kind
-}
-
-// GetID returns the ID of the resource.
-func (u *Resource) GetID() string {
-	return u.id
-}
-
-// GetProperties returns the properties of the resource.
-func (u *Resource) GetProperties() map[string]any {
-	return u.properties
-}
-
 // ResourceBuilder is the builder for the resource object.
 type ResourceBuilder struct {
 	resource *Resource
@@ -53,8 +31,8 @@ func NewResourceBuilder(kind string) *ResourceBuilder {
 }
 
 // WithID sets the id of the resource.
-func (b *ResourceBuilder) WithID(kind string) *ResourceBuilder {
-	b.resource.kind = kind
+func (b *ResourceBuilder) WithID(id string) *ResourceBuilder {
+	b.resource.id = id
 	return b
 }
 
@@ -69,5 +47,7 @@ func (b *ResourceBuilder) WithProperty(key string, value any) *ResourceBuilder {
 
 // Build builds the resource object.
 func (b *ResourceBuilder) Build() *Resource {
-	return b.resource
+	instance := *b.resource
+	instance.properties = deepCopyMap(instance.properties)
+	return &instance
 }

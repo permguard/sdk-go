@@ -31,31 +31,3 @@ func (u *Action) GetName() string {
 func (u *Action) GetProperties() map[string]any {
 	return u.properties
 }
-
-// ActionBuilder is the builder for the action object.
-type ActionBuilder struct {
-	action *Action
-}
-
-// NewActionBuilder creates a new action builder.
-func NewActionBuilder(name string) *ActionBuilder {
-	return &ActionBuilder{
-		action: &Action{
-			name: name,
-		},
-	}
-}
-
-// WithProperty sets the property of the action.
-func (b *ActionBuilder) WithProperty(key string, value any) *ActionBuilder {
-	if b.action.properties == nil {
-		b.action.properties = make(map[string]any)
-	}
-	b.action.properties[key] = value
-	return b
-}
-
-// Build builds the action object.
-func (b *ActionBuilder) Build() *Action {
-	return b.action
-}
