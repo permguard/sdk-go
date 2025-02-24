@@ -16,6 +16,10 @@
 
 package azreq
 
+const (
+	PrincipalDefaultKind = "user"
+)
+
 // PrincipalBuilder is the builder for the principal object.
 type PrincipalBuilder struct {
 	principal *Principal
@@ -26,6 +30,7 @@ func NewPrincipalBuilder(id string) *PrincipalBuilder {
 	return &PrincipalBuilder{
 		principal: &Principal{
 			id: id,
+			kind: PrincipalDefaultKind,
 		},
 	}
 }

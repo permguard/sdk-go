@@ -16,6 +16,10 @@
 
 package azreq
 
+const (
+	SubjectDefaultKind = "user"
+)
+
 // SubjectBuilder is the builder for the subject object.
 type SubjectBuilder struct {
 	subject *Subject
@@ -26,6 +30,7 @@ func NewSubjectBuilder(id string) *SubjectBuilder {
 	return &SubjectBuilder{
 		subject: &Subject{
 			id: id,
+			kind: SubjectDefaultKind,
 		},
 	}
 }
