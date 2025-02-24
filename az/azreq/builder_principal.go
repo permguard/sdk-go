@@ -30,14 +30,14 @@ func NewPrincipalBuilder(id string) *PrincipalBuilder {
 	return &PrincipalBuilder{
 		principal: &Principal{
 			ID:   id,
-			Kind: PrincipalDefaultKind,
+			Type: PrincipalDefaultKind,
 		},
 	}
 }
 
 // WithKind sets the kind of the principal.
 func (b *PrincipalBuilder) WithKind(kind string) *PrincipalBuilder {
-	b.principal.Kind = kind
+	b.principal.Type = kind
 	return b
 }
 

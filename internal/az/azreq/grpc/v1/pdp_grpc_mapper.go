@@ -40,7 +40,7 @@ func MapPrincipalToGrpcPrincipal(principal *azreq.Principal) (*Principal, error)
 	}
 	target := &Principal{}
 	target.ID = principal.ID
-	target.Kind = principal.Kind
+	target.Type = principal.Type
 	source := principal.Source
 	if source != "" {
 		target.Source = &source
@@ -77,7 +77,7 @@ func MapSubjectToGrpcSubject(subject *azreq.Subject) (*Subject, error) {
 	}
 	target := &Subject{}
 	target.ID = subject.ID
-	target.Kind = subject.Kind
+	target.Type = subject.Type
 	source := subject.Source
 	if source != "" {
 		target.Source = &source
@@ -100,7 +100,7 @@ func MapResourceToGrpcResource(resource *azreq.Resource) (*Resource, error) {
 	}
 	target := &Resource{}
 	target.ID = resource.ID
-	target.Kind = resource.Kind
+	target.Type = resource.Type
 	properties := resource.Properties
 	if properties != nil {
 		data, err := structpb.NewStruct(properties)

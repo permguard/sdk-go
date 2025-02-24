@@ -53,14 +53,14 @@ type AZRequest struct {
 
 // Principal is the principal object.
 type Principal struct {
-	Kind   string `json:"kind"`
+	Type   string `json:"type"`
 	ID     string `json:"id"`
 	Source string `json:"source"`
 }
 
 // Subject is the subject object.
 type Subject struct {
-	Kind       string         `json:"kind"`
+	Type       string         `json:"type"`
 	ID         string         `json:"id"`
 	Source     string         `json:"source"`
 	Properties map[string]any `json:"properties"`
@@ -68,7 +68,7 @@ type Subject struct {
 
 // Resource is the resource object.
 type Resource struct {
-	Kind       string         `json:"kind"`
+	Type       string         `json:"type"`
 	ID         string         `json:"id"`
 	Properties map[string]any `json:"properties"`
 }

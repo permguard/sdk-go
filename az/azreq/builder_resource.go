@@ -25,7 +25,7 @@ type ResourceBuilder struct {
 func NewResourceBuilder(kind string) *ResourceBuilder {
 	return &ResourceBuilder{
 		resource: &Resource{
-			Kind: kind,
+			Type: kind,
 		},
 	}
 }

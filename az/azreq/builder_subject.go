@@ -30,14 +30,14 @@ func NewSubjectBuilder(id string) *SubjectBuilder {
 	return &SubjectBuilder{
 		subject: &Subject{
 			ID:   id,
-			Kind: SubjectDefaultKind,
+			Type: SubjectDefaultKind,
 		},
 	}
 }
 
 // WithKind sets the kind of the subject.
 func (b *SubjectBuilder) WithKind(kind string) *SubjectBuilder {
-	b.subject.Kind = kind
+	b.subject.Type = kind
 	return b
 }
 
