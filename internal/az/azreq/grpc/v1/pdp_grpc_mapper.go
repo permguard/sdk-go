@@ -28,8 +28,8 @@ func MapPolicyStoreToGrpcPolicyStore(policyStore *azreq.PolicyStore) (*PolicySto
 		return nil, nil
 	}
 	target := &PolicyStore{}
-	target.ID = policyStore.GetID()
-	target.Kind = policyStore.GetKind()
+	target.ID = policyStore.ID
+	target.Kind = policyStore.Kind
 	return target, nil
 }
 
@@ -39,9 +39,9 @@ func MapPrincipalToGrpcPrincipal(principal *azreq.Principal) (*Principal, error)
 		return nil, nil
 	}
 	target := &Principal{}
-	target.ID = principal.GetID()
-	target.Kind = principal.GetKind()
-	source := principal.GetSource()
+	target.ID = principal.ID
+	target.Kind = principal.Kind
+	source := principal.Source
 	if source != "" {
 		target.Source = &source
 	}
@@ -54,8 +54,8 @@ func MapEntitiesToGrpcEntities(entities *azreq.Entities) (*Entities, error) {
 		return nil, nil
 	}
 	target := &Entities{}
-	target.Schema = entities.GetSchema()
-	originalItems := entities.GetItems()
+	target.Schema = entities.Schema
+	originalItems := entities.Items
 	if originalItems != nil {
 		mappedItems := make([]*structpb.Struct, 0, len(originalItems))
 		for _, item := range originalItems {
@@ -76,13 +76,13 @@ func MapSubjectToGrpcSubject(subject *azreq.Subject) (*Subject, error) {
 		return nil, nil
 	}
 	target := &Subject{}
-	target.ID = subject.GetID()
-	target.Kind = subject.GetKind()
-	source := subject.GetSource()
+	target.ID = subject.ID
+	target.Kind = subject.Kind
+	source := subject.Source
 	if source != "" {
 		target.Source = &source
 	}
-	properties := subject.GetProperties()
+	properties := subject.Properties
 	if properties != nil {
 		data, err := structpb.NewStruct(properties)
 		if err != nil {
@@ -99,9 +99,9 @@ func MapResourceToGrpcResource(resource *azreq.Resource) (*Resource, error) {
 		return nil, nil
 	}
 	target := &Resource{}
-	target.ID = resource.GetID()
-	target.Kind = resource.GetKind()
-	properties := resource.GetProperties()
+	target.ID = resource.ID
+	target.Kind = resource.Kind
+	properties := resource.Properties
 	if properties != nil {
 		data, err := structpb.NewStruct(properties)
 		if err != nil {
@@ -118,8 +118,8 @@ func MapActionToGrpcAction(action *azreq.Action) (*Action, error) {
 		return nil, nil
 	}
 	target := &Action{}
-	target.Name = action.GetName()
-	properties := action.GetProperties()
+	target.Name = action.Name
+	properties := action.Properties
 	if properties != nil {
 		data, err := structpb.NewStruct(properties)
 		if err != nil {
@@ -136,9 +136,9 @@ func MapEvaluationToGrpcEvaluationRequest(evaluation *azreq.Evaluation) (*Evalua
 		return nil, nil
 	}
 	target := &EvaluationRequest{}
-	requestID := evaluation.GetRequestID()
+	requestID := evaluation.RequestID
 	target.RequestID = &requestID
-	subject := evaluation.GetSubject()
+	subject := evaluation.Subject
 	if subject != nil {
 		subject, err := MapSubjectToGrpcSubject(subject)
 		if err != nil {
@@ -146,7 +146,7 @@ func MapEvaluationToGrpcEvaluationRequest(evaluation *azreq.Evaluation) (*Evalua
 		}
 		target.Subject = subject
 	}
-	resource := evaluation.GetResource()
+	resource := evaluation.Resource
 	if resource != nil {
 		resource, err := MapResourceToGrpcResource(resource)
 		if err != nil {
@@ -154,7 +154,7 @@ func MapEvaluationToGrpcEvaluationRequest(evaluation *azreq.Evaluation) (*Evalua
 		}
 		target.Resource = resource
 	}
-	action := evaluation.GetAction()
+	action := evaluation.Action
 	if action != nil {
 		action, err := MapActionToGrpcAction(action)
 		if err != nil {
@@ -162,7 +162,7 @@ func MapEvaluationToGrpcEvaluationRequest(evaluation *azreq.Evaluation) (*Evalua
 		}
 		target.Action = action
 	}
-	ctx := evaluation.GetContext()
+	ctx := evaluation.Context
 	if ctx != nil {
 		data, err := structpb.NewStruct(ctx)
 		if err != nil {
@@ -174,10 +174,10 @@ func MapEvaluationToGrpcEvaluationRequest(evaluation *azreq.Evaluation) (*Evalua
 }
 
 // MapAuthZModelToGrpcAuthorizationModelRequest maps the client azrequest to the gRPC authorization model request.
-func MapAuthZModelToGrpcAuthorizationModelRequest(azModel *azreq.AuthZModel) (*AuthorizationModelRequest, error) {
+func MapAuthZModelToGrpcAuthorizationModelRequest(azModel *azreq.AZModel) (*AuthorizationModelRequest, error) {
 	req := &AuthorizationModelRequest{}
-	req.ZoneID = int64(azModel.GetZoneID())
-	policyStore := azModel.GetPolicyStore()
+	req.ZoneID = int64(azModel.ZoneID)
+	policyStore := azModel.PolicyStore
 	if policyStore != nil {
 		policyStore, err := MapPolicyStoreToGrpcPolicyStore(policyStore)
 		if err != nil {
@@ -185,7 +185,7 @@ func MapAuthZModelToGrpcAuthorizationModelRequest(azModel *azreq.AuthZModel) (*A
 		}
 		req.PolicyStore = policyStore
 	}
-	principal := azModel.GetPrincipal()
+	principal := azModel.Principal
 	if principal != nil {
 		principal, err := MapPrincipalToGrpcPrincipal(principal)
 		if err != nil {
@@ -193,7 +193,7 @@ func MapAuthZModelToGrpcAuthorizationModelRequest(azModel *azreq.AuthZModel) (*A
 		}
 		req.Principal = principal
 	}
-	entities := azModel.GetEntities()
+	entities := azModel.Entities
 	if entities != nil {
 		entities, err := MapEntitiesToGrpcEntities(entities)
 		if err != nil {
@@ -210,7 +210,7 @@ func MapAZRequestToGrpcAuthorizationCheckRequest(azRequest *azreq.AZRequest) (*A
 		return nil, nil
 	}
 	req := &AuthorizationCheckRequest{}
-	azModel := azRequest.GetAuthZModel()
+	azModel := azRequest.AZModel
 	if azModel != nil {
 		AuthorizationModel, err := MapAuthZModelToGrpcAuthorizationModelRequest(azModel)
 		if err != nil {
@@ -218,7 +218,7 @@ func MapAZRequestToGrpcAuthorizationCheckRequest(azRequest *azreq.AZRequest) (*A
 		}
 		req.AuthorizationModel = AuthorizationModel
 	}
-	azEvaluations := azRequest.GetEvaluations()
+	azEvaluations := azRequest.Evaluations
 	if azEvaluations != nil {
 		evaluations := []*EvaluationRequest{}
 		for _, azEvaluation := range azEvaluations {

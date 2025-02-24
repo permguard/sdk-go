@@ -25,23 +25,23 @@ type ActionBuilder struct {
 func NewActionBuilder(name string) *ActionBuilder {
 	return &ActionBuilder{
 		action: &Action{
-			name: name,
+			Name: name,
 		},
 	}
 }
 
 // WithProperty sets the property of the action.
 func (b *ActionBuilder) WithProperty(key string, value any) *ActionBuilder {
-	if b.action.properties == nil {
-		b.action.properties = make(map[string]any)
+	if b.action.Properties == nil {
+		b.action.Properties = make(map[string]any)
 	}
-	b.action.properties[key] = value
+	b.action.Properties[key] = value
 	return b
 }
 
 // Build builds the action object.
 func (b *ActionBuilder) Build() *Action {
 	instance := *b.action
-	instance.properties = deepCopyMap(instance.properties)
+	instance.Properties = deepCopyMap(instance.Properties)
 	return &instance
 }

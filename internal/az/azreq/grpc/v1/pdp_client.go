@@ -26,7 +26,7 @@ import (
 )
 
 func AuthorizationCheck(endpoint string, req *azreq.AZRequest) (bool, error) {
-	if req == nil || req.GetEvaluations() == nil {
+	if req == nil || req.Evaluations == nil {
 		return false, nil
 	}
 	conn, err := grpc.NewClient(endpoint, grpc.WithTransportCredentials(insecure.NewCredentials()))

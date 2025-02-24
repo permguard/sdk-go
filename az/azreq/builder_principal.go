@@ -29,21 +29,21 @@ type PrincipalBuilder struct {
 func NewPrincipalBuilder(id string) *PrincipalBuilder {
 	return &PrincipalBuilder{
 		principal: &Principal{
-			id: id,
-			kind: PrincipalDefaultKind,
+			ID:   id,
+			Kind: PrincipalDefaultKind,
 		},
 	}
 }
 
 // WithKind sets the kind of the principal.
 func (b *PrincipalBuilder) WithKind(kind string) *PrincipalBuilder {
-	b.principal.kind = kind
+	b.principal.Kind = kind
 	return b
 }
 
 // WithProperty sets the property of the principal.
 func (b *PrincipalBuilder) WithSource(source string) *PrincipalBuilder {
-	b.principal.source = source
+	b.principal.Source = source
 	return b
 }
 

@@ -25,29 +25,29 @@ type ResourceBuilder struct {
 func NewResourceBuilder(kind string) *ResourceBuilder {
 	return &ResourceBuilder{
 		resource: &Resource{
-			kind: kind,
+			Kind: kind,
 		},
 	}
 }
 
 // WithID sets the id of the resource.
 func (b *ResourceBuilder) WithID(id string) *ResourceBuilder {
-	b.resource.id = id
+	b.resource.ID = id
 	return b
 }
 
 // WithProperty sets the property of the resource.
 func (b *ResourceBuilder) WithProperty(key string, value any) *ResourceBuilder {
-	if b.resource.properties == nil {
-		b.resource.properties = make(map[string]any)
+	if b.resource.Properties == nil {
+		b.resource.Properties = make(map[string]any)
 	}
-	b.resource.properties[key] = value
+	b.resource.Properties[key] = value
 	return b
 }
 
 // Build builds the resource object.
 func (b *ResourceBuilder) Build() *Resource {
 	instance := *b.resource
-	instance.properties = deepCopyMap(instance.properties)
+	instance.Properties = deepCopyMap(instance.Properties)
 	return &instance
 }
