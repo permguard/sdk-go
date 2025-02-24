@@ -1,4 +1,4 @@
-// Copyright 2025 Nitro Agility S.r.l.
+// Copyright 2024 Nitro Agility S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,63 +18,63 @@ package azreq
 
 // PolicyStore represents the Policy Store.
 type PolicyStore struct {
-	Kind string `json:"kind"`
-	ID   string `json:"id"`
+	Kind string `json:"kind,omitempty"`
+	ID   string `json:"id,omitempty"`
 }
 
 // Entities represents the Entities.
 type Entities struct {
-	Schema string           `json:"schema"`
-	Items  []map[string]any `json:"items"`
+	Schema string           `json:"schema,omitempty"`
+	Items  []map[string]any `json:"items,omitempty"`
 }
 
 // Evaluation is the Evaluation object.
 type Evaluation struct {
-	RequestID string         `json:"request_id"`
-	Subject   *Subject       `json:"subject"`
-	Resource  *Resource      `json:"resource"`
-	Action    *Action        `json:"action"`
-	Context   map[string]any `json:"context"`
+	RequestID string         `json:"request_id,omitempty"`
+	Subject   *Subject       `json:"subject,omitempty"`
+	Resource  *Resource      `json:"resource,omitempty"`
+	Action    *Action        `json:"action,omitempty"`
+	Context   map[string]any `json:"context,omitempty"`
 }
 
 // AZModel is the Authorization Model.
 type AZModel struct {
 	ZoneID      uint64       `json:"zone_id"`
-	Principal   *Principal   `json:"principal"`
-	PolicyStore *PolicyStore `json:"policy_store"`
-	Entities    *Entities    `json:"entities"`
+	Principal   *Principal   `json:"principal,omitempty"`
+	PolicyStore *PolicyStore `json:"policy_store,omitempty"`
+	Entities    *Entities    `json:"entities,omitempty"`
 }
 
 // AZRequest is the AZRequest object.
 type AZRequest struct {
-	AZModel     *AZModel     `json:"authorization_model"`
-	Evaluations []Evaluation `json:"evaluations"`
+	AZModel     *AZModel     `json:"authorization_model,omitempty"`
+	Evaluations []Evaluation `json:"evaluations,omitempty"`
 }
 
 // Principal is the principal object.
 type Principal struct {
-	Type   string `json:"type"`
-	ID     string `json:"id"`
-	Source string `json:"source"`
+	Type   string `json:"type,omitempty"`
+	ID     string `json:"id,omitempty"`
+	Source string `json:"source,omitempty"`
 }
 
 // Subject is the subject object.
 type Subject struct {
-	Type       string         `json:"type"`
-	ID         string         `json:"id"`
-	Source     string         `json:"source"`
-	Properties map[string]any `json:"properties"`
+	Type       string         `json:"type,omitempty"`
+	ID         string         `json:"id,omitempty"`
+	Source     string         `json:"source,omitempty"`
+	Properties map[string]any `json:"properties,omitempty"`
 }
 
 // Resource is the resource object.
 type Resource struct {
-	Type       string         `json:"type"`
-	ID         string         `json:"id"`
-	Properties map[string]any `json:"properties"`
+	Type       string         `json:"type,omitempty"`
+	ID         string         `json:"id,omitempty"`
+	Properties map[string]any `json:"properties,omitempty"`
 }
 
 // Action is the action object.
 type Action struct {
-	Name       string         `json:"name"`
-	Properties map[string]any `json:"properties"`
+	Name       string         `json:"name,omitempty"`
+	Properties map[string]any `json:"properties,omitempty"`
 }
