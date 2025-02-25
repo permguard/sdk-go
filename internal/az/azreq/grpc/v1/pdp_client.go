@@ -18,6 +18,8 @@ package v1
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -25,26 +27,28 @@ import (
 	"github.com/permguard/permguard-go/az/azreq"
 )
 
-func AuthorizationCheck(endpoint string, req *azreq.AZRequest) (bool, error) {
+// AuthorizationCheck checks the authorization request with the authorization server.
+func AuthorizationCheck(endpoint string, req *azreq.AZRequest) (*azreq.AZResponse, error) {
 	if req == nil || req.Evaluations == nil {
-		return false, nil
+		return nil, errors.New("pep: invalid request")
 	}
 	conn, err := grpc.NewClient(endpoint, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	defer conn.Close()
 	if err != nil {
-		return false, nil
+		return nil, fmt.Errorf("pep: grpc connection error: %w", err)
 	}
 
 	client := NewV1PDPServiceClient(conn)
 	azCheckRequest, err := MapAZRequestToGrpcAuthorizationCheckRequest(req)
 	if err != nil {
-		return false, err
+		return nil, fmt.Errorf("pep: grpc request could not be constructed error: %w", err)
 	}
 
 	ctx := context.Background()
 	azCheckResponse, err := client.AuthorizationCheck(ctx, azCheckRequest)
 	if err != nil {
-		return false, nil
+		return nil, fmt.Errorf("pep: grpc call failed error: %w", err)
 	}
-	return azCheckResponse.Decision, nil
+	azResponse, err := MapGrpcAuthorizationCheckResponseToAZResponse(azCheckResponse)
+	return azResponse, err
 }

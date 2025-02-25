@@ -44,8 +44,12 @@ func NewAZClient(opts ...AZOption) *AZClient {
 }
 
 // Check checks the input authorization request with the authorization server.
-func (c *AZClient) Check(req *azreq.AZRequest) bool {
+func (c *AZClient) Check(req *azreq.AZRequest) (bool, *azreq.AZResponse, error) {
 	target := fmt.Sprintf("%s:%d", c.azConfig.pdpEndpoint.endpoint, c.azConfig.pdpEndpoint.port)
-	canExecute, _ := v1.AuthorizationCheck(target, req)
-	return canExecute
+	canExecute, err := v1.AuthorizationCheck(target, req)
+	decision := false
+	if canExecute != nil {
+		decision = canExecute.Decision
+	}
+	return decision, canExecute, err
 }
