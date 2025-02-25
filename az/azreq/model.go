@@ -78,3 +78,31 @@ type Action struct {
 	Name       string         `json:"name,omitempty"`
 	Properties map[string]any `json:"properties,omitempty"`
 }
+
+// ReasonResponse provides the rationale for the response.
+type ReasonResponse struct {
+	Code    string `json:"code,omitempty"`
+	Message string `json:"message,omitempty"`
+}
+
+// ContextResponse represents the context included in the response.
+type ContextResponse struct {
+	ID          string          `json:"id,omitempty"`
+	ReasonAdmin *ReasonResponse `json:"reason_admin,omitempty"`
+	ReasonUser  *ReasonResponse `json:"reason_user,omitempty"`
+}
+
+// EvaluationResponse represents the result of the evaluation process.
+type EvaluationResponse struct {
+	RequestID string           `json:"request_id"`
+	Decision  bool             `json:"decision,omitempty"`
+	Context   *ContextResponse `json:"context,omitempty"`
+}
+
+// AZResponse represents the outcome of the authorization decision.
+type AZResponse struct {
+	RequestID   string               `json:"request_id,omitempty"`
+	Decision    bool                 `json:"decision"`
+	Context     *ContextResponse     `json:"context,omitempty"`
+	Evaluations []EvaluationResponse `json:"evaluations,omitempty"`
+}

@@ -45,13 +45,13 @@ func NewAZAtomicRequestBuilder(zoneID uint64, ledgerID, subjectID, resourceKind,
 
 // WithEntitiesMap sets the entities map to the AZRequest.
 func (b *AZAtomicRequestBuilder) WithEntitiesMap(schema string, entities map[string]any) *AZAtomicRequestBuilder {
-	b.WithEntitiesMap(schema, entities)
+	b.azRequestBuilder.WithEntitiesMap(schema, entities)
 	return b
 }
 
 // WithEntitiesItems sets the entities items to the AZRequest.
 func (b *AZAtomicRequestBuilder) WithEntitiesItems(schema string, entities []map[string]any) *AZAtomicRequestBuilder {
-	b.WithEntitiesItems(schema, entities)
+	b.azRequestBuilder.WithEntitiesItems(schema, entities)
 	return b
 }
 

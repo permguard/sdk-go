@@ -68,11 +68,23 @@ func checkAtomicEvaluation() {
 		Build()
 
 	// Check the authorization
-	decsion := azClient.Check(req)
+	decsion, response, _ := azClient.Check(req)
 	if decsion {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
+		if response.Context.ReasonAdmin != nil {
+			fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+		}
+		if response.Context.ReasonUser != nil {
+			fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+		}	
+		for _, eval := range response.Evaluations {
+			if (eval.Context.ReasonUser != nil) {
+				fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+				fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+			}
+		}
 	}
 }
 
@@ -140,7 +152,7 @@ func checkMultipleEvaluations() {
 	}
 
 	// Create a new request
-	req := azreq.NewAZRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5").
+	req := azreq.NewAZRequestBuilder(979783680014, "ce5b5ec4eed64d0c906f08b69a22ee7b").
 		WithPrincipal(principal).
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		WithEvaluation(evaluationView).
@@ -148,14 +160,27 @@ func checkMultipleEvaluations() {
 		Build()
 
 	// Check the authorization
-	decsion := azClient.Check(req)
+	decsion, response, _ := azClient.Check(req)
 	if decsion {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
+		if response.Context.ReasonAdmin != nil {
+			fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+		}
+		if response.Context.ReasonUser != nil {
+			fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+		}	
+		for _, eval := range response.Evaluations {
+			if (eval.Context.ReasonUser != nil) {
+				fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+				fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+			}
+		}
 	}
 }
 
 func main() {
-	checkMultipleEvaluations()
+	checkAtomicEvaluation()
+	//checkMultipleEvaluations()
 }
