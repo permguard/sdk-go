@@ -140,7 +140,7 @@ func checkMultipleEvaluations() {
 	}
 
 	// Create a new request
-	req := azreq.NewAZRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a").
+	req := azreq.NewAZRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5").
 		WithPrincipal(principal).
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		WithEvaluation(evaluationView).

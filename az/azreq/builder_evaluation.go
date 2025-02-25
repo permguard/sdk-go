@@ -25,28 +25,28 @@ type EvaluationBuilder struct {
 func NewEvaluationBuilder(subject *Subject, resource *Resource, action *Action) *EvaluationBuilder {
 	return &EvaluationBuilder{
 		azEvaluation: &Evaluation{
-			subject:  subject,
-			resource: resource,
-			action:   action,
+			Subject:  subject,
+			Resource: resource,
+			Action:   action,
 		},
 	}
 }
 
 // WithRequestID sets the request ID of the Evaluation.
 func (b *EvaluationBuilder) WithRequestID(requestID string) *EvaluationBuilder {
-	b.azEvaluation.requestID = requestID
+	b.azEvaluation.RequestID = requestID
 	return b
 }
 
 // WithContext sets the context of the Evaluation.
 func (b *EvaluationBuilder) WithContext(context map[string]any) *EvaluationBuilder {
-	b.azEvaluation.context = context
+	b.azEvaluation.Context = context
 	return b
 }
 
 // Build builds the Evaluation object.
 func (b *EvaluationBuilder) Build() *Evaluation {
 	instance := *b.azEvaluation
-	instance.context = deepCopyMap(instance.context)
+	instance.Context = deepCopyMap(instance.Context)
 	return &instance
 }

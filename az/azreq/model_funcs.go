@@ -16,18 +16,33 @@
 
 package azreq
 
-// Action is the action object.
-type Action struct {
-	name       string
-	properties map[string]any
+// deepCopyMap deep copies a map.
+func deepCopyMap(src map[string]any) map[string]any {
+	if src == nil {
+		return nil
+	}
+	dst := make(map[string]any, len(src))
+	for key, value := range src {
+		dst[key] = deepCopy(value)
+	}
+	return dst
 }
 
-// GetName returns the name of the action.
-func (u *Action) GetName() string {
-	return u.name
-}
-
-// GetProperties returns the properties of the action.
-func (u *Action) GetProperties() map[string]any {
-	return u.properties
+// deepCopy deep copies a value.
+func deepCopy(value any) any {
+	if value == nil {
+		return nil
+	}
+	switch v := value.(type) {
+	case map[string]any:
+		return deepCopyMap(v)
+	case []any:
+		copiedSlice := make([]any, len(v))
+		for i, item := range v {
+			copiedSlice[i] = deepCopy(item)
+		}
+		return copiedSlice
+	default:
+		return v
+	}
 }

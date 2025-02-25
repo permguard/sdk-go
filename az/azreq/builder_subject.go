@@ -16,6 +16,10 @@
 
 package azreq
 
+const (
+	SubjectDefaultKind = "user"
+)
+
 // SubjectBuilder is the builder for the subject object.
 type SubjectBuilder struct {
 	subject *Subject
@@ -25,35 +29,36 @@ type SubjectBuilder struct {
 func NewSubjectBuilder(id string) *SubjectBuilder {
 	return &SubjectBuilder{
 		subject: &Subject{
-			id: id,
+			ID:   id,
+			Type: SubjectDefaultKind,
 		},
 	}
 }
 
 // WithKind sets the kind of the subject.
 func (b *SubjectBuilder) WithKind(kind string) *SubjectBuilder {
-	b.subject.kind = kind
+	b.subject.Type = kind
 	return b
 }
 
 // WithProperty sets the property of the subject.
 func (b *SubjectBuilder) WithSource(source string) *SubjectBuilder {
-	b.subject.source = source
+	b.subject.Source = source
 	return b
 }
 
 // WithProperty sets the property of the subject.
 func (b *SubjectBuilder) WithProperty(key string, value any) *SubjectBuilder {
-	if b.subject.properties == nil {
-		b.subject.properties = make(map[string]any)
+	if b.subject.Properties == nil {
+		b.subject.Properties = make(map[string]any)
 	}
-	b.subject.properties[key] = value
+	b.subject.Properties[key] = value
 	return b
 }
 
 // Build builds the subject object.
 func (b *SubjectBuilder) Build() *Subject {
 	instance := *b.subject
-	instance.properties = deepCopyMap(instance.properties)
+	instance.Properties = deepCopyMap(instance.Properties)
 	return &instance
 }

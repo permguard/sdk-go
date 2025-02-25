@@ -1,4 +1,4 @@
-// Copyright 2025 Nitro Agility S.r.l.
+// Copyright 2024 Nitro Agility S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,33 +16,65 @@
 
 package azreq
 
-// deepCopyMap deep copies a map.
-func deepCopyMap(src map[string]any) map[string]any {
-	if src == nil {
-		return nil
-	}
-	dst := make(map[string]any, len(src))
-	for key, value := range src {
-		dst[key] = deepCopy(value)
-	}
-	return dst
+// PolicyStore represents the Policy Store.
+type PolicyStore struct {
+	Kind string `json:"kind,omitempty"`
+	ID   string `json:"id,omitempty"`
 }
 
-// deepCopy deep copies a value.
-func deepCopy(value any) any {
-	if value == nil {
-		return nil
-	}
-	switch v := value.(type) {
-	case map[string]any:
-		return deepCopyMap(v)
-	case []any:
-		copiedSlice := make([]any, len(v))
-		for i, item := range v {
-			copiedSlice[i] = deepCopy(item)
-		}
-		return copiedSlice
-	default:
-		return v
-	}
+// Entities represents the Entities.
+type Entities struct {
+	Schema string           `json:"schema,omitempty"`
+	Items  []map[string]any `json:"items,omitempty"`
+}
+
+// Evaluation is the Evaluation object.
+type Evaluation struct {
+	RequestID string         `json:"request_id,omitempty"`
+	Subject   *Subject       `json:"subject,omitempty"`
+	Resource  *Resource      `json:"resource,omitempty"`
+	Action    *Action        `json:"action,omitempty"`
+	Context   map[string]any `json:"context,omitempty"`
+}
+
+// AZModel is the Authorization Model.
+type AZModel struct {
+	ZoneID      uint64       `json:"zone_id"`
+	Principal   *Principal   `json:"principal,omitempty"`
+	PolicyStore *PolicyStore `json:"policy_store,omitempty"`
+	Entities    *Entities    `json:"entities,omitempty"`
+}
+
+// AZRequest is the AZRequest object.
+type AZRequest struct {
+	AZModel     *AZModel     `json:"authorization_model,omitempty"`
+	Evaluations []Evaluation `json:"evaluations,omitempty"`
+}
+
+// Principal is the principal object.
+type Principal struct {
+	Type   string `json:"type,omitempty"`
+	ID     string `json:"id,omitempty"`
+	Source string `json:"source,omitempty"`
+}
+
+// Subject is the subject object.
+type Subject struct {
+	Type       string         `json:"type,omitempty"`
+	ID         string         `json:"id,omitempty"`
+	Source     string         `json:"source,omitempty"`
+	Properties map[string]any `json:"properties,omitempty"`
+}
+
+// Resource is the resource object.
+type Resource struct {
+	Type       string         `json:"type,omitempty"`
+	ID         string         `json:"id,omitempty"`
+	Properties map[string]any `json:"properties,omitempty"`
+}
+
+// Action is the action object.
+type Action struct {
+	Name       string         `json:"name,omitempty"`
+	Properties map[string]any `json:"properties,omitempty"`
 }

@@ -32,48 +32,48 @@ type AZRequestBuilder struct {
 func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 	return &AZRequestBuilder{
 		azRequest: &AZRequest{
-			authZModel: &AuthZModel{
-				zoneID: zoneID,
-				policyStore: &PolicyStore{
-					kind: PolicyStoreKind,
-					id:   ledgerID,
+			AZModel: &AZModel{
+				ZoneID: zoneID,
+				PolicyStore: &PolicyStore{
+					Kind: PolicyStoreKind,
+					ID:   ledgerID,
 				},
-				entities: &Entities{
-					schema: "",
-					items:  []map[string]any{},
+				Entities: &Entities{
+					Schema: "",
+					Items:  []map[string]any{},
 				},
 			},
-			evaluations: []Evaluation{},
+			Evaluations: []Evaluation{},
 		},
 	}
 }
 
 // WithPrincipal sets the principal of the Evaluation.
 func (b *AZRequestBuilder) WithPrincipal(principal *Principal) *AZRequestBuilder {
-	b.azRequest.authZModel.principal = principal
+	b.azRequest.AZModel.Principal = principal
 	return b
 }
 
 // WithEntitiesMap sets the entities map to the AZRequest.
 func (b *AZRequestBuilder) WithEntitiesMap(schema string, entities map[string]any) *AZRequestBuilder {
-	b.azRequest.authZModel.entities.schema = schema
-	b.azRequest.authZModel.entities.items = []map[string]any{entities}
+	b.azRequest.AZModel.Entities.Schema = schema
+	b.azRequest.AZModel.Entities.Items = []map[string]any{entities}
 	return b
 }
 
 // WithEntitiesItems sets the entities items to the AZRequest.
 func (b *AZRequestBuilder) WithEntitiesItems(schema string, entities []map[string]any) *AZRequestBuilder {
-	b.azRequest.authZModel.entities.schema = schema
-	b.azRequest.authZModel.entities.items = entities
-	if b.azRequest.authZModel.entities.items == nil {
-		b.azRequest.authZModel.entities.items = []map[string]any{}
+	b.azRequest.AZModel.Entities.Schema = schema
+	b.azRequest.AZModel.Entities.Items = entities
+	if b.azRequest.AZModel.Entities.Items == nil {
+		b.azRequest.AZModel.Entities.Items = []map[string]any{}
 	}
 	return b
 }
 
 // WithEvaluation adds an evaluation to the AZRequest.
 func (b *AZRequestBuilder) WithEvaluation(evaluation *Evaluation) *AZRequestBuilder {
-	b.azRequest.evaluations = append(b.azRequest.evaluations, *evaluation)
+	b.azRequest.Evaluations = append(b.azRequest.Evaluations, *evaluation)
 	return b
 }
 
