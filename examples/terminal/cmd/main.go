@@ -36,6 +36,7 @@ func checkJsonRequest() {
 		permguard.WithEndpoint("localhost", 9094),
 	)
 
+	// Create a new authorization request
 	var req *azreq.AZRequest
 	if err := json.Unmarshal(jsonFile, &req); err != nil {
 		fmt.Println("❌ Authorization request deserialization failed")
@@ -89,6 +90,7 @@ func checkAtomicEvaluation() {
 		},
 	}
 
+	// Create a new authorization request
 	req := azreq.NewAZAtomicRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5",
 		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
 		// RequestID
@@ -196,7 +198,7 @@ func checkMultipleEvaluations() {
 		},
 	}
 
-	// Create a new request
+	// Create a new authorization request
 	req := azreq.NewAZRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5").
 		WithPrincipal(principal).
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
