@@ -17,12 +17,55 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+
+	_ "embed"
 
 	"github.com/permguard/permguard-go"
 	"github.com/permguard/permguard-go/az/azreq"
 )
 
+//go:embed requests/ok_onlyone1.json
+var jsonFile []byte
+
+// checkJsonRequest checks a JSON request.
+func checkJsonRequest() {
+	// Create a new Permguard client
+	azClient := permguard.NewAZClient(
+		permguard.WithEndpoint("localhost", 9094),
+	)
+
+	var req *azreq.AZRequest
+	if err := json.Unmarshal(jsonFile, &req); err != nil {
+		fmt.Println("❌ Authorization request deserialization failed")
+		return
+	}
+
+	// Check the authorization
+	decsion, response, _ := azClient.Check(req)
+	if decsion {
+		fmt.Println("✅ Authorization Permitted")
+	} else {
+		fmt.Println("❌ Authorization Denied")
+		if response != nil {
+			if response.Context.ReasonAdmin != nil {
+				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+			}
+			if response.Context.ReasonUser != nil {
+				fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+			}
+			for _, eval := range response.Evaluations {
+				if eval.Context.ReasonUser != nil {
+					fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+					fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+				}
+			}
+		}
+	}
+}
+
+// checkAtomicEvaluation checks an atomic evaluation.
 func checkAtomicEvaluation() {
 	// Create a new Permguard client
 	azClient := permguard.NewAZClient(
@@ -73,22 +116,24 @@ func checkAtomicEvaluation() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response.Context.ReasonAdmin != nil {
-			fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
-		}
-		if response.Context.ReasonUser != nil {
-			fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-		}
-		for _, eval := range response.Evaluations {
-			if eval.Context.ReasonUser != nil {
-				fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
-				fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+		if response != nil {
+			if response.Context.ReasonAdmin != nil {
+				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+			}
+			if response.Context.ReasonUser != nil {
+				fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+			}
+			for _, eval := range response.Evaluations {
+				if eval.Context.ReasonUser != nil {
+					fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+					fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+				}
 			}
 		}
 	}
 }
 
-// checkMultipleEvaluations checks multiple evaluations
+// checkMultipleEvaluations checks multiple evaluations.
 func checkMultipleEvaluations() {
 	// Create a new Permguard client
 	azClient := permguard.NewAZClient(
@@ -165,22 +210,26 @@ func checkMultipleEvaluations() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response.Context.ReasonAdmin != nil {
-			fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
-		}
-		if response.Context.ReasonUser != nil {
-			fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-		}
-		for _, eval := range response.Evaluations {
-			if eval.Context.ReasonUser != nil {
-				fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
-				fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+		if response != nil {
+			if response.Context.ReasonAdmin != nil {
+				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+			}
+			if response.Context.ReasonUser != nil {
+				fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+			}
+			for _, eval := range response.Evaluations {
+				if eval.Context.ReasonUser != nil {
+					fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+					fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+				}
 			}
 		}
 	}
 }
 
+// main is the entry point of the program.
 func main() {
+	checkJsonRequest()
 	checkAtomicEvaluation()
-	//checkMultipleEvaluations()
+	checkMultipleEvaluations()
 }

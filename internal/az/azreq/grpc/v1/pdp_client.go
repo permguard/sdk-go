@@ -29,8 +29,11 @@ import (
 
 // AuthorizationCheck checks the authorization request with the authorization server.
 func AuthorizationCheck(endpoint string, req *azreq.AZRequest) (*azreq.AZResponse, error) {
-	if req == nil || req.Evaluations == nil {
+	if req == nil {
 		return nil, errors.New("pep: invalid request")
+	}
+	if req.Evaluations == nil {
+		req.Evaluations = make([]azreq.Evaluation, 0)
 	}
 	conn, err := grpc.NewClient(endpoint, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	defer conn.Close()
