@@ -46,7 +46,7 @@ func checkAtomicEvaluation() {
 		},
 	}
 
-	req := azreq.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
+	req := azreq.NewAZAtomicRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5",
 		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
 		// RequestID
 		WithRequestID("1234").
@@ -78,9 +78,9 @@ func checkAtomicEvaluation() {
 		}
 		if response.Context.ReasonUser != nil {
 			fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-		}	
+		}
 		for _, eval := range response.Evaluations {
-			if (eval.Context.ReasonUser != nil) {
+			if eval.Context.ReasonUser != nil {
 				fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
 				fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
 			}
@@ -152,7 +152,7 @@ func checkMultipleEvaluations() {
 	}
 
 	// Create a new request
-	req := azreq.NewAZRequestBuilder(979783680014, "ce5b5ec4eed64d0c906f08b69a22ee7b").
+	req := azreq.NewAZRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5").
 		WithPrincipal(principal).
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		WithEvaluation(evaluationView).
@@ -170,9 +170,9 @@ func checkMultipleEvaluations() {
 		}
 		if response.Context.ReasonUser != nil {
 			fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-		}	
+		}
 		for _, eval := range response.Evaluations {
-			if (eval.Context.ReasonUser != nil) {
+			if eval.Context.ReasonUser != nil {
 				fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
 				fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
 			}

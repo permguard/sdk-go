@@ -47,7 +47,12 @@ type AZModel struct {
 
 // AZRequest is the AZRequest object.
 type AZRequest struct {
-	AZModel     *AZModel     `json:"authorization_model,omitempty"`
+	AZModel     *AZModel  `json:"authorization_model,omitempty"`
+	RequestID   string    `json:"request_id,omitempty"`
+	Subject     *Subject  `json:"subject,omitempty"`
+	Resource    *Resource `json:"resource,omitempty"`
+	Action      *Action   `json:"action,omitempty"`
+	Context     map[string]any
 	Evaluations []Evaluation `json:"evaluations,omitempty"`
 }
 
