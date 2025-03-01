@@ -10,7 +10,8 @@
   <img src="https://raw.githubusercontent.com/permguard/permguard-assets/main/pink-txt//1line.svg" class="center" width="400px" height="auto"/>
 </p>
 
-The Permguard GO SDK provides a simple and flexible client to perform authorization checks against a Permguard Policy Decision Point (PDP) service using gRPC. This README explains how to install the SDK, configure the client, and integrate it into your GO application.
+The Permguard GO SDK provides a simple and flexible client to perform authorization checks against a Permguard Policy Decision Point (PDP) service using gRPC.
+Plase refer to the [Permguard Documentation](https://www.permguard.com/) for more information.
 
 ---
 
