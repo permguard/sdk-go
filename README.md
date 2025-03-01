@@ -32,7 +32,7 @@ go get -u github.com/permguard/permguard-go
 
 ## Usage Example
 
-Below is a sample Go `main` method demonstrating how to create a Permguard client, build an authorization request using a builder pattern, and process the authorization response:
+Below is a sample Go code demonstrating how to create a Permguard client, build an authorization request using a builder pattern, and process the authorization response:
 
 ```go
 
