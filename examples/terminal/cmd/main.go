@@ -232,6 +232,6 @@ func checkMultipleEvaluations() {
 // main is the entry point of the program.
 func main() {
 	checkJsonRequest()
-	checkAtomicEvaluation()
-	checkMultipleEvaluations()
+	// checkAtomicEvaluation()
+	// checkMultipleEvaluations()
 }
