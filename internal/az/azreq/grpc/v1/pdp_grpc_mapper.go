@@ -220,6 +220,40 @@ func MapAZRequestToGrpcAuthorizationCheckRequest(azRequest *azreq.AZRequest) (*A
 		}
 		req.AuthorizationModel = AuthorizationModel
 	}
+	requestID := azRequest.RequestID
+	req.RequestID = &requestID
+	subject := azRequest.Subject
+	if subject != nil {
+		subject, err := MapSubjectToGrpcSubject(subject)
+		if err != nil {
+			return nil, err
+		}
+		req.Subject = subject
+	}
+	resource := azRequest.Resource
+	if resource != nil {
+		resource, err := MapResourceToGrpcResource(resource)
+		if err != nil {
+			return nil, err
+		}
+		req.Resource = resource
+	}
+	action := azRequest.Action
+	if action != nil {
+		action, err := MapActionToGrpcAction(action)
+		if err != nil {
+			return nil, err
+		}
+		req.Action = action
+	}
+	ctx := azRequest.Context
+	if ctx != nil {
+		data, err := structpb.NewStruct(ctx)
+		if err != nil {
+			return nil, err
+		}
+		req.Context = data
+	}
 	azEvaluations := azRequest.Evaluations
 	if azEvaluations != nil {
 		evaluations := []*EvaluationRequest{}

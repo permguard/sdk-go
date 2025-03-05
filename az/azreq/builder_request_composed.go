@@ -48,9 +48,39 @@ func NewAZRequestBuilder(zoneID uint64, ledgerID string) *AZRequestBuilder {
 	}
 }
 
-// WithPrincipal sets the principal of the Evaluation.
+// WithPrincipal sets the principal of the AZRequest.
 func (b *AZRequestBuilder) WithPrincipal(principal *Principal) *AZRequestBuilder {
 	b.azRequest.AZModel.Principal = principal
+	return b
+}
+
+// WithRequestID sets the request ID of the AZRequest.
+func (b *AZRequestBuilder) WithRequestID(requestID string) *AZRequestBuilder {
+	b.azRequest.RequestID = requestID
+	return b
+}
+
+// WithSubject sets the subject of the AZRequest.
+func (b *AZRequestBuilder) WithSubject(subject *Subject) *AZRequestBuilder {
+	b.azRequest.Subject = subject
+	return b
+}
+
+// WithResource sets the resource of the AZRequest.
+func (b *AZRequestBuilder) WithResource(resource *Resource) *AZRequestBuilder {
+	b.azRequest.Resource = resource
+	return b
+}
+
+// WithAction sets the action of the AZRequest.
+func (b *AZRequestBuilder) WithAction(action *Action) *AZRequestBuilder {
+	b.azRequest.Action = action
+	return b
+}
+
+// WithContext sets the context of the Evaluation.
+func (b *AZRequestBuilder) WithContext(context map[string]any) *AZRequestBuilder {
+	b.azRequest.Context = context
 	return b
 }
 

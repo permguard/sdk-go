@@ -10,8 +10,98 @@
   <img src="https://raw.githubusercontent.com/permguard/permguard-assets/main/pink-txt//1line.svg" class="center" width="400px" height="auto"/>
 </p>
 
-**Permguard** is an Open Source ZTAuth* Provider for cloud-native, edge, and multi-tenant apps, decoupled from application code and leveraging `Policy-as-Code` for centralized, scalable permission management.
+The Permguard GO SDK provides a simple and flexible client to perform authorization checks against a Permguard Policy Decision Point (PDP) service using gRPC.
+Plase refer to the [Permguard Documentation](https://www.permguard.com/) for more information.
 
-This repository implements the Permguard Go SDK (Authorization Check).
+---
+
+## Prerequisites
+
+- **Go 1.23.5**
+
+---
+
+## Installation
+
+Run the following command to install the SDK:
+
+```bash
+go get -u github.com/permguard/permguard-go
+```
+
+---
+
+## Usage Example
+
+Below is a sample Go code demonstrating how to create a Permguard client, build an authorization request using a builder pattern, and process the authorization response:
+
+```go
+
+// Create a new Permguard client
+azClient := permguard.NewAZClient(
+  permguard.WithEndpoint("localhost", 9094),
+)
+
+// Create the Principal
+principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+
+// Create the entities
+entities := []map[string]any{
+  {
+      "uid": map[string]any{
+      "type": "MagicFarmacia::Platform::BranchInfo",
+      "id":   "subscription",
+      },
+      "attrs": map[string]any{
+      "active": true,
+    },
+    "parents": []any{},
+  },
+}
+
+// Create a new authorization request
+req := azreq.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
+  "amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
+  // RequestID
+  WithRequestID("1234").
+  // Principal
+  WithPrincipal(principal).
+  // Entities
+  WithEntitiesItems(azreq.CedarEntityKind, entities).
+  // Subject
+  WithSubjectKind("user").
+  WithSubjectSource("keycloack").
+  WithSubjectProperty("isSuperUser", true).
+  // Resource
+  WithResourceID("e3a786fd07e24bfa95ba4341d3695ae8").
+  WithResourceProperty("isEnabled", true).
+  // Action
+  WithActionProperty("isEnabled", true).
+  WithContextProperty("time", "2025-01-23T16:17:46+00:00").
+  WithContextProperty("isSubscriptionActive", true).
+  Build()
+
+// Check the authorization
+decsion, response, _ := azClient.Check(req)
+if decsion {
+  fmt.Println("✅ Authorization Permitted")
+} else {
+  fmt.Println("❌ Authorization Denied")
+  if response.Context.ReasonAdmin != nil {
+    fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+  }
+  if response.Context.ReasonUser != nil {
+    fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+  }
+  for _, eval := range response.Evaluations {
+    if eval.Context.ReasonUser != nil {
+      fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+      fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+    }
+  }
+}
+```
+
+---
 
 Created by [Nitro Agility](https://www.nitroagility.com/).
