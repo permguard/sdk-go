@@ -49,7 +49,7 @@ func checkJsonRequest() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response != nil {
+		if response != nil && response.Context != nil {
 			if response.Context.ReasonAdmin != nil {
 				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
 			}
@@ -91,8 +91,8 @@ func checkAtomicEvaluation() {
 	}
 
 	// Create a new authorization request
-	req := azreq.NewAZAtomicRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5",
-		"amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::view").
+	req := azreq.NewAZAtomicRequestBuilder(895741663247, "809257ed202e40cab7e958218eecad20",
+		"platform-creator", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::create").
 		// RequestID
 		WithRequestID("1234").
 		// Principal
@@ -100,7 +100,7 @@ func checkAtomicEvaluation() {
 		// Entities
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		// Subject
-		WithSubjectKind("user").
+		WithSubjectRoleActorType().
 		WithSubjectSource("keycloack").
 		WithSubjectProperty("isSuperUser", true).
 		// Resource
@@ -118,7 +118,7 @@ func checkAtomicEvaluation() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response != nil {
+		if response != nil && response.Context != nil {
 			if response.Context.ReasonAdmin != nil {
 				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
 			}
@@ -143,8 +143,8 @@ func checkMultipleEvaluations() {
 	)
 
 	// Create a new subject
-	subject := azreq.NewSubjectBuilder("amy.smith@acmecorp.com").
-		WithKind("user").
+	subject := azreq.NewSubjectBuilder("platform-creator").
+		WithRoleActorType().
 		WithSource("keycloack").
 		WithProperty("isSuperUser", true).
 		Build()
@@ -156,7 +156,7 @@ func checkMultipleEvaluations() {
 		Build()
 
 	// Create ations
-	actionView := azreq.NewActionBuilder("MagicFarmacia::Platform::Action::view").
+	actionView := azreq.NewActionBuilder("MagicFarmacia::Platform::Action::create").
 		WithProperty("isEnabled", true).
 		Build()
 
@@ -199,7 +199,7 @@ func checkMultipleEvaluations() {
 	}
 
 	// Create a new authorization request
-	req := azreq.NewAZRequestBuilder(204510383118, "181e252e247747338ad062abad0086a5").
+	req := azreq.NewAZRequestBuilder(895741663247, "809257ed202e40cab7e958218eecad20").
 		WithPrincipal(principal).
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		WithEvaluation(evaluationView).
@@ -212,7 +212,7 @@ func checkMultipleEvaluations() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response != nil {
+		if response != nil && response.Context != nil {
 			if response.Context.ReasonAdmin != nil {
 				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
 			}
@@ -232,6 +232,6 @@ func checkMultipleEvaluations() {
 // main is the entry point of the program.
 func main() {
 	checkJsonRequest()
-	// checkAtomicEvaluation()
-	// checkMultipleEvaluations()
+	checkAtomicEvaluation()
+	checkMultipleEvaluations()
 }

@@ -67,9 +67,27 @@ func (b *AZAtomicRequestBuilder) WithPrincipal(principal *Principal) *AZAtomicRe
 	return b
 }
 
-// WithSubjectKind sets the kind of the subject for the AZRequest.
-func (b *AZAtomicRequestBuilder) WithSubjectKind(kind string) *AZAtomicRequestBuilder {
-	b.azSubjectBuilder.WithKind(kind)
+// WithSubjectUserType sets the kind of the subject for the AZRequest.
+func (b *AZAtomicRequestBuilder) WithSubjectUserType() *AZAtomicRequestBuilder {
+	b.azSubjectBuilder.WithType(UserType)
+	return b
+}
+
+// WithSubjectRoleActorType sets the kind of the subject for the AZRequest.
+func (b *AZAtomicRequestBuilder) WithSubjectRoleActorType() *AZAtomicRequestBuilder {
+	b.azSubjectBuilder.WithType(RoleActorType)
+	return b
+}
+
+// WithSubjectRoleActorType sets the kind of the subject for the AZRequest.
+func (b *AZAtomicRequestBuilder) WithSubjectTwinActorType() *AZAtomicRequestBuilder {
+	b.azSubjectBuilder.WithType(TwinActorType)
+	return b
+}
+
+// WithSubjectType sets the kind of the subject for the AZRequest.
+func (b *AZAtomicRequestBuilder) WithSubjectType(kind string) *AZAtomicRequestBuilder {
+	b.azSubjectBuilder.WithType(kind)
 	return b
 }
 

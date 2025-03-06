@@ -16,6 +16,12 @@
 
 package azreq
 
+const (
+	UserType      = "USER"
+	RoleActorType = "ROLE-ACTOR"
+	TwinActorType = "TWIN-ACTOR"
+)
+
 // PolicyStore represents the Policy Store.
 type PolicyStore struct {
 	Kind string `json:"kind,omitempty"`
