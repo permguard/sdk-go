@@ -35,9 +35,27 @@ func NewSubjectBuilder(id string) *SubjectBuilder {
 	}
 }
 
-// WithKind sets the kind of the subject.
-func (b *SubjectBuilder) WithKind(kind string) *SubjectBuilder {
-	b.subject.Type = kind
+// WithUserType sets as user the type of the subject for the AZRequest.
+func (b *SubjectBuilder) WithUserType() *SubjectBuilder {
+	b.subject.Type = UserType
+	return b
+}
+
+// WithRoleActorType sets as role actor the type of the subject for the AZRequest.
+func (b *SubjectBuilder) WithRoleActorType() *SubjectBuilder {
+	b.subject.Type = RoleActorType
+	return b
+}
+
+// WithTwinActorType sets as twin actor the type of the subject for the AZRequest.
+func (b *SubjectBuilder) WithTwinActorType() *SubjectBuilder {
+	b.subject.Type = TwinActorType
+	return b
+}
+
+// WithType sets the kind of the subject.
+func (b *SubjectBuilder) WithType(subType string) *SubjectBuilder {
+	b.subject.Type = subType
 	return b
 }
 
