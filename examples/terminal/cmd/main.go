@@ -49,17 +49,23 @@ func checkJsonRequest() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response != nil && response.Context != nil {
-			if response.Context.ReasonAdmin != nil {
-				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+		if response != nil {
+			if response.Context != nil {
+				if response.Context.ReasonAdmin != nil {
+					fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+				}
+				if response.Context.ReasonUser != nil {
+					fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+				}
 			}
-			if response.Context.ReasonUser != nil {
-				fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-			}
-			for _, eval := range response.Evaluations {
-				if eval.Context.ReasonUser != nil {
-					fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
-					fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+			if response.Evaluations != nil {
+				for _, eval := range response.Evaluations {
+					if eval.Context.ReasonAdmin != nil {
+						fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+					}
+					if eval.Context.ReasonUser != nil {
+						fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+					}
 				}
 			}
 		}
@@ -118,17 +124,23 @@ func checkAtomicEvaluation() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response != nil && response.Context != nil {
-			if response.Context.ReasonAdmin != nil {
-				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+		if response != nil {
+			if response.Context != nil {
+				if response.Context.ReasonAdmin != nil {
+					fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+				}
+				if response.Context.ReasonUser != nil {
+					fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+				}
 			}
-			if response.Context.ReasonUser != nil {
-				fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-			}
-			for _, eval := range response.Evaluations {
-				if eval.Context.ReasonUser != nil {
-					fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
-					fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+			if response.Evaluations != nil {
+				for _, eval := range response.Evaluations {
+					if eval.Context.ReasonAdmin != nil {
+						fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+					}
+					if eval.Context.ReasonUser != nil {
+						fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+					}
 				}
 			}
 		}
@@ -212,17 +224,23 @@ func checkMultipleEvaluations() {
 		fmt.Println("✅ Authorization Permitted")
 	} else {
 		fmt.Println("❌ Authorization Denied")
-		if response != nil && response.Context != nil {
-			if response.Context.ReasonAdmin != nil {
-				fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+		if response != nil {
+			if response.Context != nil {
+				if response.Context.ReasonAdmin != nil {
+					fmt.Printf("-> Reason Admin: %s\n", response.Context.ReasonAdmin.Message)
+				}
+				if response.Context.ReasonUser != nil {
+					fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
+				}
 			}
-			if response.Context.ReasonUser != nil {
-				fmt.Printf("-> Reason User: %s\n", response.Context.ReasonUser.Message)
-			}
-			for _, eval := range response.Evaluations {
-				if eval.Context.ReasonUser != nil {
-					fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
-					fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+			if response.Evaluations != nil {
+				for _, eval := range response.Evaluations {
+					if eval.Context.ReasonAdmin != nil {
+						fmt.Printf("-> Reason Admin: %s\n", eval.Context.ReasonAdmin.Message)
+					}
+					if eval.Context.ReasonUser != nil {
+						fmt.Printf("-> Reason User: %s\n", eval.Context.ReasonUser.Message)
+					}
 				}
 			}
 		}
