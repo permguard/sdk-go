@@ -36,6 +36,10 @@ go get -u github.com/permguard/permguard-go
 Below is a sample Go code demonstrating how to create a Permguard client, build an authorization request using a builder pattern, and process the authorization response:
 
 ```go
+import (
+  "github.com/permguard/permguard-go"
+  "github.com/permguard/permguard-go/az/azreq"
+)
 
 // Create a new Permguard client
 azClient := permguard.NewAZClient(
