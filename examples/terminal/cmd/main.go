@@ -114,6 +114,7 @@ func checkAtomicEvaluation() {
 		WithResourceProperty("isEnabled", true).
 		// Action
 		WithActionProperty("isEnabled", true).
+		// Context
 		WithContextProperty("time", "2025-01-23T16:17:46+00:00").
 		WithContextProperty("isSubscriptionActive", true).
 		Build()
@@ -154,6 +155,9 @@ func checkMultipleEvaluations() {
 		permguard.WithEndpoint("localhost", 9094),
 	)
 
+	// Create the Principal
+	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
+
 	// Create a new subject
 	subject := azreq.NewSubjectBuilder("platform-creator").
 		WithRoleActorType().
@@ -192,9 +196,6 @@ func checkMultipleEvaluations() {
 		WithRequestID("7890").
 		WithContext(context).
 		Build()
-
-	// Create the Principal
-	principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 
 	// Create the entities
 	entities := []map[string]any{
