@@ -19,7 +19,7 @@ package v1
 import (
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/permguard/permguard-go/az/azreq"
+	"github.com/permguard/sdk-go/az/azreq"
 )
 
 // Request

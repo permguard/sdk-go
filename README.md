@@ -1,10 +1,10 @@
 # The official Go SDK for Permguard
 
-[![GitHub License](https://img.shields.io/github/license/permguard/permguard-go)](https://github.com/permguard/permguard-go?tab=Apache-2.0-1-ov-file#readme)
+[![GitHub License](https://img.shields.io/github/license/permguard/sdk-go)](https://github.com/permguard/sdk-go?tab=Apache-2.0-1-ov-file#readme)
 [![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/permguard)](https://x.com/intent/follow?original_referer=https%3A%2F%2Fdeveloper.x.com%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Efollow%7Ctwgr%5ETwitterDev&screen_name=Permguard)
 
 [![Documentation](https://img.shields.io/website?label=Docs&url=https%3A%2F%2Fwww.permguard.com%2F)](https://www.permguard.com/)
-[![Build, test and publish the artifacts](https://github.com/permguard/permguard-go/actions/workflows/permguard-go-ci.yml/badge.svg)](https://github.com/permguard/permguard-go/actions/workflows/permguard-go-ci.yml)
+[![Build, test and publish the artifacts](https://github.com/permguard/sdk-go/actions/workflows/sdk-go-ci.yml/badge.svg)](https://github.com/permguard/sdk-go/actions/workflows/sdk-go-ci.yml)
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/permguard/permguard-assets/main/pink-txt//1line.svg" class="center" width="400px" height="auto"/>
@@ -26,7 +26,7 @@ Plase refer to the [Permguard Documentation](https://www.permguard.com/) for mor
 Run the following command to install the SDK:
 
 ```bash
-go get -u github.com/permguard/permguard-go
+go get -u github.com/permguard/sdk-go
 ```
 
 ---
@@ -37,8 +37,8 @@ Below is a sample Go code demonstrating how to create a Permguard client, build 
 
 ```go
 import (
-  "github.com/permguard/permguard-go"
-  "github.com/permguard/permguard-go/az/azreq"
+  "github.com/permguard/sdk-go"
+  "github.com/permguard/sdk-go/az/azreq"
 )
 
 // Create a new Permguard client

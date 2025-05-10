@@ -1,4 +1,4 @@
-module github.com/permguard/permguard-go
+module github.com/permguard/sdk-go
 
 go 1.23.5
 

@@ -1,10 +1,10 @@
-module github.com/permguard/permguard-go/example/terminal
+module github.com/permguard/sdk-go/example/terminal
 
 go 1.23.5
 
-replace github.com/permguard/permguard-go => ../..
+replace github.com/permguard/sdk-go => ../..
 
-require github.com/permguard/permguard-go v0.0.0-20250217223217-778d1065bcaf
+require github.com/permguard/sdk-go v0.0.0-20250217223217-778d1065bcaf
 
 require (
 	golang.org/x/net v0.32.0 // indirect

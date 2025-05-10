@@ -24,7 +24,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/permguard/permguard-go/az/azreq"
+	"github.com/permguard/sdk-go/az/azreq"
 )
 
 // AuthorizationCheck checks the authorization request with the authorization server.

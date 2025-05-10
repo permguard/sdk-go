@@ -19,8 +19,8 @@ package permguard
 import (
 	"fmt"
 
-	"github.com/permguard/permguard-go/az/azreq"
-	"github.com/permguard/permguard-go/internal/az/azreq/grpc/v1"
+	"github.com/permguard/sdk-go/az/azreq"
+	v1 "github.com/permguard/sdk-go/internal/az/azreq/grpc/v1"
 )
 
 // AZClient is the client to interact with the authorization server.

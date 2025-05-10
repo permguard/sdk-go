@@ -22,8 +22,8 @@ import (
 
 	_ "embed"
 
-	"github.com/permguard/permguard-go"
-	"github.com/permguard/permguard-go/az/azreq"
+	permguard "github.com/permguard/sdk-go"
+	"github.com/permguard/sdk-go/az/azreq"
 )
 
 //go:embed requests/ok_onlyone1.json
