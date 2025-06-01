@@ -36,10 +36,10 @@ func AuthorizationCheck(endpoint string, req *azreq.AZRequest) (*azreq.AZRespons
 		req.Evaluations = make([]azreq.Evaluation, 0)
 	}
 	conn, err := grpc.NewClient(endpoint, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	defer conn.Close()
 	if err != nil {
 		return nil, fmt.Errorf("pep: grpc connection error: %w", err)
 	}
+	defer conn.Close()
 
 	client := NewV1PDPServiceClient(conn)
 	azCheckRequest, err := MapAZRequestToGrpcAuthorizationCheckRequest(req)
