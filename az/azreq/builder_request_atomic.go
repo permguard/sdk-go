@@ -73,15 +73,9 @@ func (b *AZAtomicRequestBuilder) WithSubjectUserType() *AZAtomicRequestBuilder {
 	return b
 }
 
-// WithSubjectRoleActorType sets the kind of the subject for the AZRequest.
-func (b *AZAtomicRequestBuilder) WithSubjectRoleActorType() *AZAtomicRequestBuilder {
-	b.azSubjectBuilder.WithType(RoleActorType)
-	return b
-}
-
-// WithSubjectRoleActorType sets the kind of the subject for the AZRequest.
-func (b *AZAtomicRequestBuilder) WithSubjectTwinActorType() *AZAtomicRequestBuilder {
-	b.azSubjectBuilder.WithType(TwinActorType)
+// WithSubjectWorkloadType sets the kind of the subject for the AZRequest.
+func (b *AZAtomicRequestBuilder) WithSubjectWorkloadType() *AZAtomicRequestBuilder {
+	b.azSubjectBuilder.WithType(WorkloadType)
 	return b
 }
 

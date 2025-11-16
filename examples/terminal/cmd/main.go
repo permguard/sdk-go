@@ -106,7 +106,7 @@ func checkAtomicEvaluation() {
 		// Entities
 		WithEntitiesItems(azreq.CedarEntityKind, entities).
 		// Subject
-		WithSubjectRoleActorType().
+		WithSubjectWorkloadType().
 		WithSubjectSource("keycloack").
 		WithSubjectProperty("isSuperUser", true).
 		// Resource
@@ -160,7 +160,7 @@ func checkMultipleEvaluations() {
 
 	// Create a new subject
 	subject := azreq.NewSubjectBuilder("platform-creator").
-		WithRoleActorType().
+		WithWorkloadType().
 		WithSource("keycloack").
 		WithProperty("isSuperUser", true).
 		Build()

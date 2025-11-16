@@ -41,15 +41,9 @@ func (b *SubjectBuilder) WithUserType() *SubjectBuilder {
 	return b
 }
 
-// WithRoleActorType sets as role actor the type of the subject for the AZRequest.
-func (b *SubjectBuilder) WithRoleActorType() *SubjectBuilder {
-	b.subject.Type = RoleActorType
-	return b
-}
-
-// WithTwinActorType sets as twin actor the type of the subject for the AZRequest.
-func (b *SubjectBuilder) WithTwinActorType() *SubjectBuilder {
-	b.subject.Type = TwinActorType
+// WithWorkloadType sets as workload the type of the subject for the AZRequest.
+func (b *SubjectBuilder) WithWorkloadType() *SubjectBuilder {
+	b.subject.Type = WorkloadType
 	return b
 }
 
