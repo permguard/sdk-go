@@ -33,19 +33,19 @@ func NewSubjectBuilder(id string) *SubjectBuilder {
 
 // WithUserType sets as user the type of the subject for the AZRequest.
 func (b *SubjectBuilder) WithUserType() *SubjectBuilder {
-	b.subject.Type = UserType
+	b.WithType(UserType)
 	return b
 }
 
 // WithWorkloadType sets as workload the type of the subject for the AZRequest.
 func (b *SubjectBuilder) WithWorkloadType() *SubjectBuilder {
-	b.subject.Type = WorkloadType
+	b.WithType(WorkloadType)
 	return b
 }
 
 // WithAttributeType sets as attribute the type of the subject for the AZRequest.
 func (b *SubjectBuilder) WithAttributeType() *SubjectBuilder {
-	b.subject.Type = AttributeType
+	b.WithType(AttributeType)
 	return b
 }
 
