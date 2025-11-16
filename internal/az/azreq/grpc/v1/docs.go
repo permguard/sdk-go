@@ -14,5 +14,5 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package v1 implements the v1 version of the permguard server.
+// Package v1 implements the v1 version of the permguard authzserver.
 package v1
