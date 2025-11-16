@@ -17,8 +17,9 @@
 package azreq
 
 const (
-	UserType      = "USER"
-	WorkloadType  = "WORKLOAD"
+	UserType      = "user"
+	WorkloadType  = "workload"
+	AttributeType = "attribute"
 )
 
 // PolicyStore represents the Policy Store.

@@ -16,10 +16,6 @@
 
 package azreq
 
-const (
-	PrincipalDefaultKind = "user"
-)
-
 // PrincipalBuilder is the builder for the principal object.
 type PrincipalBuilder struct {
 	principal *Principal
@@ -30,14 +26,32 @@ func NewPrincipalBuilder(id string) *PrincipalBuilder {
 	return &PrincipalBuilder{
 		principal: &Principal{
 			ID:   id,
-			Type: PrincipalDefaultKind,
+			Type: UserType,
 		},
 	}
 }
 
-// WithKind sets the kind of the principal.
-func (b *PrincipalBuilder) WithKind(kind string) *PrincipalBuilder {
-	b.principal.Type = kind
+// WithUserType sets as user the type of the subject for the AZRequest.
+func (b *PrincipalBuilder) WithUserType() *PrincipalBuilder {
+	b.principal.Type = UserType
+	return b
+}
+
+// WithWorkloadType sets as workload the type of the subject for the AZRequest.
+func (b *PrincipalBuilder) WithWorkloadType() *PrincipalBuilder {
+	b.principal.Type = WorkloadType
+	return b
+}
+
+// WithAttributeType sets as attribute the type of the subject for the AZRequest.
+func (b *PrincipalBuilder) WithAttributeType() *PrincipalBuilder {
+	b.principal.Type = AttributeType
+	return b
+}
+
+// WithType sets the type of the principal.
+func (b *PrincipalBuilder) WithType(principalType string) *PrincipalBuilder {
+	b.principal.Type = principalType
 	return b
 }
 

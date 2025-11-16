@@ -16,10 +16,6 @@
 
 package azreq
 
-const (
-	SubjectDefaultKind = "user"
-)
-
 // SubjectBuilder is the builder for the subject object.
 type SubjectBuilder struct {
 	subject *Subject
@@ -30,7 +26,7 @@ func NewSubjectBuilder(id string) *SubjectBuilder {
 	return &SubjectBuilder{
 		subject: &Subject{
 			ID:   id,
-			Type: SubjectDefaultKind,
+			Type: UserType,
 		},
 	}
 }
@@ -44,6 +40,12 @@ func (b *SubjectBuilder) WithUserType() *SubjectBuilder {
 // WithWorkloadType sets as workload the type of the subject for the AZRequest.
 func (b *SubjectBuilder) WithWorkloadType() *SubjectBuilder {
 	b.subject.Type = WorkloadType
+	return b
+}
+
+// WithAttributeType sets as attribute the type of the subject for the AZRequest.
+func (b *SubjectBuilder) WithAttributeType() *SubjectBuilder {
+	b.subject.Type = AttributeType
 	return b
 }
 

@@ -9,7 +9,6 @@
 
 [Watch the video on YouTube](https://youtu.be/cH_boKCpLQ8?si=i1fWFHT5kxQQJoYN)
 
-
 The Permguard GO SDK provides a simple and flexible client to perform authorization checks against a Permguard Policy Decision Point (PDP) service using gRPC.
 Plase refer to the [Permguard Documentation](https://www.permguard.com/) for more information.
 
@@ -73,7 +72,7 @@ req := azreq.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494
   // Entities
   WithEntitiesItems(azreq.CedarEntityKind, entities).
   // Subject
-  WithSubjectKind(azreq.UserType).
+  WithSubjectType(azreq.UserType).
   WithSubjectSource("keycloack").
   WithSubjectProperty("isSuperUser", true).
   // Resource
