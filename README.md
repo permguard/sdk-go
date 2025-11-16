@@ -52,7 +52,7 @@ principal := azreq.NewPrincipalBuilder("amy.smith@acmecorp.com").Build()
 entities := []map[string]any{
   {
       "uid": map[string]any{
-      "type": "MagicFarmacia::Platform::BranchInfo",
+      "type": "ZTMedFlow::Platform::BranchInfo",
       "id":   "subscription",
       },
       "attrs": map[string]any{
@@ -64,7 +64,7 @@ entities := []map[string]any{
 
 // Create a new authorization request
 req := azreq.NewAZAtomicRequestBuilder(273165098782, "fd1ac44e4afa4fc4beec622494d3175a",
-  "amy.smith@acmecorp.com", "MagicFarmacia::Platform::Subscription", "MagicFarmacia::Platform::Action::create").
+  "amy.smith@acmecorp.com", "ZTMedFlow::Platform::Subscription", "ZTMedFlow::Platform::Action::create").
   // RequestID
   WithRequestID("1234").
   // Principal
