@@ -1,3 +1,6 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
 .DEFAULT_GOAL := build
 
 brew:
@@ -7,8 +10,8 @@ brew:
 	brew install protobuf
 
 install:
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.5
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
 	go install github.com/google/addlicense@latest
 
 clean:
@@ -27,9 +30,10 @@ mod:
 
 protoc:
 	protoc proto/v1/*.proto \
-		--go_out=internal/az/azreq/grpc/v1 --go_opt=paths=source_relative \
-		--go-grpc_out=internal/az/azreq/grpc/v1 --go-grpc_opt=require_unimplemented_servers=false,paths=source_relative \
+		--go_out=internal/grpc/v1 --go_opt=paths=source_relative \
+		--go-grpc_out=internal/grpc/v1 --go-grpc_opt=require_unimplemented_servers=false,paths=source_relative \
 		--proto_path=proto/v1
+	bash scripts/header-generated.sh internal/grpc/v1/pdp.pb.go internal/grpc/v1/pdp_grpc.pb.go
 
 check:
 	staticcheck  ./...

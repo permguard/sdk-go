@@ -1,4 +1,4 @@
-// Copyright 2024 Nitro Agility S.r.l.
+// Copyright (c) 2022 Nitro Agility S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,5 +14,5 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package permguard implements the permguard go sdk.
+// Package permguard implements the Permguard PDP native v1 client.
 package permguard
