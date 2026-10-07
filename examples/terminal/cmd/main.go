@@ -27,11 +27,12 @@ func main() {
 
 	response, err := client.Evaluate(context.Background(), &permguard.EvaluateRequest{
 		Zone:    "acme",
-		Ledger:  "documents",
-		Subject: &permguard.Entity{Type: "user", ID: "amy@example.com"},
+		Ledger:  "main-ledger",
+		Profile: "gateway",
+		Subject: &permguard.Entity{Type: "User", ID: "alice"},
 		Resource: &permguard.Entity{
-			Type: "document",
-			ID:   "quarterly-report",
+			Type: "Document",
+			ID:   "budget-2026",
 		},
 		Action:    &permguard.Action{Name: "read"},
 		RequestID: "example-1",
