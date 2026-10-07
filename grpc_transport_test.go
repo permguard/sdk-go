@@ -145,3 +145,11 @@ func TestGRPCMapperRejectsLossyIntegers(t *testing.T) {
 		t.Fatal("integer larger than 2^53 was silently accepted")
 	}
 }
+
+func TestGRPCConflictFallbackMatchesSharedContract(t *testing.T) {
+	for _, code := range []codes.Code{codes.FailedPrecondition, codes.AlreadyExists, codes.Aborted} {
+		if got := grpcClass(code); got != "conflict" {
+			t.Fatalf("gRPC %s class = %q, want conflict", code, got)
+		}
+	}
+}

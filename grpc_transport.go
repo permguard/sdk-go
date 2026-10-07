@@ -167,6 +167,8 @@ func grpcClass(code codes.Code) string {
 	switch code {
 	case codes.InvalidArgument, codes.OutOfRange:
 		return "validation"
+	case codes.FailedPrecondition, codes.AlreadyExists, codes.Aborted:
+		return "conflict"
 	case codes.Unauthenticated, codes.PermissionDenied:
 		return "authorization"
 	case codes.NotFound:

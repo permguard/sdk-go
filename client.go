@@ -48,6 +48,9 @@ func NewClient(endpoint string, supplied ...Option) (*Client, error) {
 	if parsed.Host == "" {
 		return nil, fmt.Errorf("parse Permguard endpoint: host is required")
 	}
+	if parsed.User != nil {
+		return nil, fmt.Errorf("parse Permguard endpoint: embedded credentials are not allowed")
+	}
 
 	var selected transport
 	switch strings.ToLower(parsed.Scheme) {

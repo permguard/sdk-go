@@ -138,6 +138,8 @@ func httpClass(status int) string {
 	switch status {
 	case http.StatusBadRequest, http.StatusUnprocessableEntity:
 		return "validation"
+	case http.StatusConflict:
+		return "conflict"
 	case http.StatusUnauthorized, http.StatusForbidden:
 		return "authorization"
 	case http.StatusNotFound:

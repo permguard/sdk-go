@@ -117,3 +117,12 @@ func TestEvaluationPartitionInputPresenceIsPreservedInJSON(t *testing.T) {
 		t.Fatalf("context presence was lost: %s", payload)
 	}
 }
+
+func TestHTTPFallbackAndEndpointValidationMatchSharedContract(t *testing.T) {
+	if got := httpClass(http.StatusConflict); got != "conflict" {
+		t.Fatalf("HTTP 409 class = %q, want conflict", got)
+	}
+	if _, err := NewClient("http://user:secret@pdp.example"); err == nil {
+		t.Fatal("endpoint with embedded credentials was accepted")
+	}
+}
