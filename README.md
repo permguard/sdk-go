@@ -9,7 +9,7 @@ SPDX-License-Identifier: Apache-2.0
 [![licence](https://img.shields.io/badge/licence-Apache--2.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/permguard/sdk-go/main/assets/readme/hero.png?v=2" alt="Permguard SDK for Go. Ask Permguard, from Go: the official Go client of the Permguard Policy Decision Point, Go 1.23.5 or newer, over HTTP or gRPC, Apache-2.0. Beside it, a Go window creates a client for grpc://localhost:7443 and evaluates whether the User alice may read in the ledger main-ledger of the zone acme; the answer is permit." width="820">
+  <img src="https://raw.githubusercontent.com/permguard/sdk-go/main/assets/readme/hero.png?v=3" alt="Permguard SDK for Go. Ask Permguard, from Go: the official Go client of the Permguard Policy Decision Point, Go 1.23.5 or newer, over HTTP or gRPC, Apache-2.0. Beside it, a Go window creates a client for grpc://localhost:7443 and evaluates whether the User alice may read in the ledger main-ledger of the zone acme; the answer is permit." width="820">
 </p>
 
 <p align="center">
