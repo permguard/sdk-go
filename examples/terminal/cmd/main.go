@@ -28,7 +28,6 @@ func main() {
 	response, err := client.Evaluate(context.Background(), &permguard.EvaluateRequest{
 		Zone:    "acme",
 		Ledger:  "main-ledger",
-		Profile: "gateway",
 		Subject: &permguard.Entity{Type: "User", ID: "alice"},
 		Resource: &permguard.Entity{
 			Type: "Document",

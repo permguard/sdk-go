@@ -67,7 +67,6 @@ func main() {
 	response, err := client.Evaluate(context.Background(), &permguard.EvaluateRequest{
 		Zone:      "acme",
 		Ledger:    "main-ledger",
-		Profile:   "gateway",
 		Subject:   &permguard.Entity{Type: "User", ID: "alice"},
 		Resource:  &permguard.Entity{Type: "Document", ID: "budget-2026"},
 		Action:    &permguard.Action{Name: "read"},
@@ -86,6 +85,9 @@ func main() {
 ```
 
 The same program is in [examples/terminal](examples/terminal/cmd/main.go); set `PERMGUARD_PDP_URL` to point it at another data plane.
+
+A request that names no `profile` is decided by the ledger's `default` profile: the manifest `permguard init` writes declares it, with one partition, `cedar`.
+A ledger whose manifest declares other profiles is asked with the profile's name, and its partition inputs are keyed by that profile's partitions.
 
 ### The request
 
@@ -113,7 +115,7 @@ Runtime data is addressed to the partition name the ledger's profile declares:
 
 ```go
 request.PartitionInputs = permguard.PartitionInputs{
-	"authorization": {
+	"cedar": {
 		Type: "permguard.cedar.entities.v1",
 		Data: []any{
 			map[string]any{
