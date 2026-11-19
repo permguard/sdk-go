@@ -26,7 +26,8 @@ func defaultClientOptions() clientOptions {
 // Option configures a Client.
 type Option func(*clientOptions) error
 
-// WithTimeout sets the per-call timeout used when the supplied context has no deadline.
+// WithTimeout sets the timeout of every call: a call ends at it, or at the context's deadline
+// when that comes sooner.
 func WithTimeout(timeout time.Duration) Option {
 	return func(options *clientOptions) error {
 		if timeout <= 0 {

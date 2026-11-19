@@ -108,12 +108,11 @@ func (c *Client) Close() error {
 	return c.transport.close()
 }
 
+// withTimeout bounds every call by the client's timeout; a context deadline that comes sooner
+// still ends the call first (BUG-0310).
 func withTimeout(ctx context.Context, timeout time.Duration) (context.Context, context.CancelFunc) {
 	if ctx == nil {
 		ctx = context.Background()
-	}
-	if _, set := ctx.Deadline(); set {
-		return context.WithCancel(ctx)
 	}
 	return context.WithTimeout(ctx, timeout)
 }

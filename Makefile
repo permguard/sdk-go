@@ -53,9 +53,6 @@ lint-fix:
 test:
 	go test ./...
 
-teste2e:
-	export E2E="TRUE" && GOFLAGS="-count=1" go test ./e2e/...
-
 coverage:
 	go test -coverprofile=coverage.out ./...
 	go tool cover -func=coverage.out

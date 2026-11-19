@@ -7,9 +7,11 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 
 	pdpv1 "github.com/permguard/sdk-go/internal/grpc/v1"
 	"google.golang.org/grpc"
@@ -26,6 +28,8 @@ const (
 )
 
 type grpcTransport struct {
+	closing    sync.Once
+	closed     error
 	connection *grpc.ClientConn
 	client     pdpv1.PolicyDecisionPointClient
 	metadata   metadata.MD
@@ -50,8 +54,18 @@ func newGRPCTransport(endpoint *url.URL, options clientOptions) (*grpcTransport,
 		transportCredentials = insecure.NewCredentials()
 	}
 
+	// The port the scheme implies when the endpoint names none, as the Permguard CLI's endpoint
+	// grammar has it: 443 over TLS, 80 in plaintext, never the TLS port for plaintext (BUG-0317).
+	target := endpoint.Host
+	if endpoint.Port() == "" {
+		port := "80"
+		if strings.EqualFold(endpoint.Scheme, "grpcs") {
+			port = "443"
+		}
+		target = net.JoinHostPort(endpoint.Hostname(), port)
+	}
 	connection, err := grpc.NewClient(
-		endpoint.Host,
+		target,
 		grpc.WithTransportCredentials(transportCredentials),
 	)
 	if err != nil {
@@ -104,7 +118,7 @@ func (transport *grpcTransport) evaluate(
 		)
 	}
 	if err != nil {
-		return nil, refusalFromGRPC(err, header, trailer)
+		return nil, refusalFromGRPC(ctx, err, header, trailer)
 	}
 	return responseFromProto(response), nil
 }
@@ -120,7 +134,7 @@ func (transport *grpcTransport) configuration(ctx context.Context) (*Configurati
 		grpc.Trailer(&trailer),
 	)
 	if err != nil {
-		return nil, refusalFromGRPC(err, header, trailer)
+		return nil, refusalFromGRPC(ctx, err, header, trailer)
 	}
 	return configurationFromProto(response), nil
 }
@@ -133,9 +147,12 @@ func (transport *grpcTransport) outgoing(ctx context.Context) context.Context {
 	return metadata.NewOutgoingContext(ctx, metadata.Join(existing, transport.metadata))
 }
 
-func refusalFromGRPC(err error, header, trailer metadata.MD) error {
+func refusalFromGRPC(ctx context.Context, err error, header, trailer metadata.MD) error {
 	held, ok := status.FromError(err)
 	if !ok {
+		if failure := clientFailure(ctx, err); failure != nil {
+			return failure
+		}
 		return fmt.Errorf("call Permguard gRPC endpoint: %w", err)
 	}
 	lookup := func(key string) string {
@@ -146,6 +163,31 @@ func refusalFromGRPC(err error, header, trailer metadata.MD) error {
 			return value[0]
 		}
 		return ""
+	}
+	// What the client's own gRPC library reported, not the data plane: a timeout, the caller's
+	// cancellation, or a data plane it could not reach, as the HTTP transport reports them
+	// (BUG-0284). A status the data plane sent carries its own class and code.
+	if lookup(grpcErrorCode) == "" {
+		switch held.Code() {
+		case codes.Canceled:
+			if ctx.Err() != nil {
+				return ctx.Err()
+			}
+		case codes.DeadlineExceeded:
+			return &Refusal{
+				Class:    ClassUnavailable,
+				Code:     CodeTimeout,
+				Message:  "the data plane did not answer within the call's timeout",
+				GRPCCode: held.Code(),
+			}
+		case codes.Unavailable:
+			return &Refusal{
+				Class:    ClassUnavailable,
+				Code:     CodeUnreachable,
+				Message:  "the data plane could not be reached: " + held.Message(),
+				GRPCCode: held.Code(),
+			}
+		}
 	}
 	class := lookup(grpcErrorClass)
 	if class == "" {
@@ -180,6 +222,10 @@ func grpcClass(code codes.Code) string {
 	}
 }
 
+// close is safe to call more than once: a connection already closed is not an error (BUG-0317).
 func (transport *grpcTransport) close() error {
-	return transport.connection.Close()
+	transport.closing.Do(func() {
+		transport.closed = transport.connection.Close()
+	})
+	return transport.closed
 }

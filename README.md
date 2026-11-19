@@ -104,6 +104,8 @@ The same program is in [examples/terminal](examples/terminal/cmd/main.go); set `
 
 A deny is not an error: it is a successful response with `Decision == false`.
 Validation, authorization, availability and server failures are returned as `*permguard.Refusal`, with their stable `Class` and `Code`.
+A call that fails in the client is a `*permguard.Refusal` too, the same on HTTP and gRPC and in every Permguard SDK: class `unavailable` with code `timeout` when the call's timeout or the context's deadline passed, code `unreachable` when the data plane could not be reached.
+A cancellation of your own context is not a refusal: the call returns the context's error.
 
 ## Partition inputs
 
@@ -165,17 +167,20 @@ Each evaluation inherits what it does not set from the request.
 | `grpc://`  | `permguard.data.v1.PolicyDecisionPoint`        |
 | `grpcs://` | `permguard.data.v1.PolicyDecisionPoint` on TLS |
 
+An endpoint without a port uses the one its scheme implies, as the Permguard command line does: `443` over TLS, `80` in plaintext.
+A data plane listens on `7443` by default, so name its port.
+
 `NewClient` takes options after the endpoint:
 
-| Option           | Sets                                                 |
-| ---------------- | ---------------------------------------------------- |
-| `WithTimeout`    | the timeout of every call                            |
-| `WithTLSConfig`  | the TLS configuration, for `https://` and `grpcs://` |
-| `WithHTTPClient` | the `*http.Client` used for HTTP                     |
-| `WithHeader`     | a static header, also sent as gRPC metadata          |
+| Option           | Sets                                                             |
+| ---------------- | ---------------------------------------------------------------- |
+| `WithTimeout`    | the timeout of every call, or the context's deadline when sooner |
+| `WithTLSConfig`  | the TLS configuration, for `https://` and `grpcs://`             |
+| `WithHTTPClient` | the `*http.Client` used for HTTP                                 |
+| `WithHeader`     | a static header, also sent as gRPC metadata                      |
 
 `client.GetConfiguration(ctx)` reads the data plane's discovery document.
-The client reuses its HTTP transport or gRPC channel: create it once, and call `Close` when it is no longer needed.
+The client reuses its HTTP transport or gRPC channel: create it once, and call `Close` when it is no longer needed; a second `Close` is no error.
 
 ## Credentials
 

@@ -96,12 +96,18 @@ func (transport *httpTransport) call(
 
 	response, err := transport.client.Do(request)
 	if err != nil {
+		if failure := clientFailure(ctx, err); failure != nil {
+			return failure
+		}
 		return fmt.Errorf("call Permguard HTTP endpoint: %w", err)
 	}
 	defer response.Body.Close()
 
 	payload, err := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes+1))
 	if err != nil {
+		if failure := clientFailure(ctx, err); failure != nil {
+			return failure
+		}
 		return fmt.Errorf("read Permguard HTTP response: %w", err)
 	}
 	if len(payload) > maxResponseBytes {
