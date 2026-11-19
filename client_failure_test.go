@@ -6,6 +6,7 @@ package permguard
 import (
 	"context"
 	"errors"
+	"math"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -153,5 +154,48 @@ func TestAGRPCEndpointWithoutAPortAndASecondClose(t *testing.T) {
 		if err := client.Close(); err != nil {
 			t.Fatalf("%s: second Close: %v", endpoint, err)
 		}
+	}
+}
+
+// BUG-0306, BUG-0307: a context value follows the server's rule before either transport sends
+// it: 2^53 crosses, an integer past it is value_unrepresentable, NaN and infinities are
+// payload_malformed, the same on HTTP and gRPC.
+func TestContextValuesFollowTheServersRuleOnBothTransports(t *testing.T) {
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	address := listener.Addr().String()
+	_ = listener.Close()
+	for _, endpoint := range []string{"http://" + address, "grpc://" + address} {
+		client, err := NewClient(endpoint, WithTimeout(2*time.Second))
+		if err != nil {
+			t.Fatal(err)
+		}
+		ask := func(value any) error {
+			_, err := client.Evaluate(context.Background(), &EvaluateRequest{
+				Zone: "acme", Ledger: "main", Context: map[string]any{"n": value},
+			})
+			return err
+		}
+		// 2^53 passes the check: the call goes on, and fails only as unreachable.
+		for _, value := range []any{int64(1 << 53), int64(-(1 << 53)), uint64(1 << 53), 0.5} {
+			if refusal := refusalOf(t, ask(value)); refusal.Code != CodeUnreachable {
+				t.Fatalf("%s: %v refused before sending: %+v", endpoint, value, refusal)
+			}
+		}
+		for value, code := range map[any]string{
+			int64(1<<53 + 1):      "value_unrepresentable",
+			int64(-(1 << 53) - 1): "value_unrepresentable",
+			uint64(1<<63 + 1):     "value_unrepresentable",
+			math.NaN():            "payload_malformed",
+			math.Inf(1):           "payload_malformed",
+		} {
+			refusal := refusalOf(t, ask(value))
+			if refusal.Class != "validation" || refusal.Code != code {
+				t.Fatalf("%s: %v: %+v, not %s", endpoint, value, refusal, code)
+			}
+		}
+		_ = client.Close()
 	}
 }

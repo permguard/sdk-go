@@ -85,6 +85,9 @@ func (c *Client) evaluate(ctx context.Context, request *EvaluateRequest, many bo
 	if request == nil {
 		return nil, fmt.Errorf("Permguard evaluation request cannot be nil")
 	}
+	if err := checkValues(request); err != nil {
+		return nil, err
+	}
 	ctx, cancel := withTimeout(ctx, c.timeout)
 	defer cancel()
 	return c.transport.evaluate(ctx, request, many)

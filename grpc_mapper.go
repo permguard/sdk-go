@@ -15,7 +15,9 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-const maxExactProtoInteger = 1<<53 - 1
+// maxExactProtoInteger is the largest integer both transports carry exactly, the server's
+// bound: 2^53 (BUG-0306).
+const maxExactProtoInteger = 1 << 53
 
 func requestToProto(request *EvaluateRequest) (*pdpv1.EvaluateRequest, error) {
 	semantic, err := semanticToProto(request.Options)
