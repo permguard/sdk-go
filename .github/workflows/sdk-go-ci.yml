@@ -26,3 +26,30 @@ jobs:
         run: go vet ./...
       - name: Test
         run: go test -count=1 ./...
+
+  contract:
+    name: The contract is the pinned release's
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: pdp.proto is the one PERMGUARD_CONTRACT names
+        run: bash scripts/check-contract.sh proto/v1/pdp.proto
+
+  e2e:
+    name: Against a real data plane
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: The pinned release, serving a ledger
+        run: echo "E2E_DIR=$(bash scripts/e2e-server.sh "$RUNNER_TEMP/permguard")" >> "$GITHUB_ENV"
+      - name: Permit, deny, batch and refusals over HTTP and gRPC
+        env:
+          E2E_HTTP: http://127.0.0.1:7443
+          E2E_GRPC: grpc://127.0.0.1:7443
+        run: go test -count=1 -tags e2e -run TestAgainstARealDataPlane -v ./...
+      - name: The server's log
+        if: failure()
+        run: tail -100 "$RUNNER_TEMP/permguard/server.log"

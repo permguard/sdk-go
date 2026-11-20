@@ -204,6 +204,10 @@ See the [Authority Plane](https://docs.permguard.com/how-it-works/authority-plan
 This major version implements `permguard.api.pdp.native.v1`.
 Compatibility is tied to that versioned interface, not to a server minor version.
 
+The contract this release carries is the `pdp.proto` of Permguard `v0.1.33`, the tag [PERMGUARD_CONTRACT](PERMGUARD_CONTRACT) names: CI fails when the copy in `proto/v1` differs from it, and runs the tests against a data plane of that release over HTTP and gRPC.
+It covers the decision interface: a request may ask for a signed response with `RequestNonce`, and the answer carries the plane's `Attestation` and each decision's `Context.Evidence`; the discovery document carries the version, lifecycle, limits and response signing.
+The temporal interface, `permguard.api.pdp.temporal.v1alpha1`, is not covered by this SDK.
+
 ## Develop
 
 ```bash
@@ -212,8 +216,9 @@ make test
 make lint
 ```
 
-`proto/v1/pdp.proto` is generated from the canonical contract in the Permguard server repository.
+`proto/v1/pdp.proto` is the canonical contract of the Permguard release `PERMGUARD_CONTRACT` names, with the Go package option added; `bash scripts/check-contract.sh proto/v1/pdp.proto` checks it.
 A change to the contract regenerates the Go bindings and passes both the HTTP and the gRPC contract tests.
+`bash scripts/e2e-server.sh` starts that release with a ledger the end-to-end tests ask (`E2E_HTTP=http://127.0.0.1:7443 E2E_GRPC=grpc://127.0.0.1:7443 go test -tags e2e ./...`); `E2E_PORT_OFFSET` moves its ports when another server holds them.
 
 ## License
 

@@ -70,6 +70,7 @@ func requestToProto(request *EvaluateRequest) (*pdpv1.EvaluateRequest, error) {
 		EvaluationsSemantic: semantic,
 		RequestId:           request.RequestID,
 		PartitionInputs:     inputs,
+		RequestNonce:        request.RequestNonce,
 	}, nil
 }
 
@@ -256,7 +257,34 @@ func responseFromProto(response *pdpv1.EvaluateResponse) *EvaluateResponse {
 		RequestID:   response.RequestId,
 		Context:     contextFromProto(response.Context),
 		Evaluations: evaluations,
+		Attestation: attestationFromProto(response.Attestation),
 	}
+}
+
+func attestationFromProto(attestation *pdpv1.Attestation) *Attestation {
+	if attestation == nil {
+		return nil
+	}
+	return &Attestation{
+		Protected: attestation.Protected,
+		Payload:   attestation.Payload,
+		Signature: attestation.Signature,
+	}
+}
+
+func evidenceFromProto(evidence *pdpv1.Evidence) *Evidence {
+	if evidence == nil {
+		return nil
+	}
+	held := &Evidence{Mode: evidence.Mode, Status: evidence.Status, RecordID: evidence.RecordId}
+	if evidence.Position != nil {
+		held.Position = &EvidencePosition{
+			HostID:   evidence.Position.HostId,
+			Run:      evidence.Position.Run,
+			Sequence: evidence.Position.Sequence,
+		}
+	}
+	return held
 }
 
 func decisionFromProto(decision *pdpv1.Decision) Decision {
@@ -280,6 +308,7 @@ func contextFromProto(context *pdpv1.DecisionContext) *DecisionContext {
 		ReasonUser:   reasonFromProto(context.ReasonUser),
 		Policies:     append([]string(nil), context.Policies...),
 		AbsentInputs: append([]string(nil), context.AbsentInputs...),
+		Evidence:     evidenceFromProto(context.Evidence),
 	}
 }
 
@@ -296,8 +325,24 @@ func configurationFromProto(response *pdpv1.GetConfigurationResponse) *Configura
 	}
 	configuration := &Configuration{
 		Interface:    response.Interface,
+		Version:      response.Version,
+		Component:    response.Component,
+		State:        response.State,
+		Stage:        response.Stage,
+		Sunset:       response.Sunset,
 		PDP:          response.Pdp,
 		Capabilities: append([]string(nil), response.Capabilities...),
+		Limits:       map[string]uint64{},
+	}
+	for name, limit := range response.Limits {
+		configuration.Limits[name] = limit
+	}
+	if response.ResponseSigning != nil {
+		configuration.ResponseSigning = ResponseSigning{
+			State:            response.ResponseSigning.State,
+			ValiditySeconds:  response.ResponseSigning.ValiditySeconds,
+			ClockSkewSeconds: response.ResponseSigning.ClockSkewSeconds,
+		}
 	}
 	if response.Endpoints != nil {
 		configuration.Endpoints = Endpoints{
